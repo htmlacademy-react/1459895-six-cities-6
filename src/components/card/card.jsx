@@ -53,7 +53,15 @@ const Card = (props) => {
 };
 
 Card.propTypes = {
-  card: PropTypes.object
+  card: PropTypes.shape({
+    isPremium: PropTypes.bool,
+    previewImage: PropTypes.string,
+    price: PropTypes.number,
+    title: PropTypes.string,
+    type: PropTypes.string,
+    rating: PropTypes.number,
+    isFavorite: PropTypes.bool
+  })
 };
 
 export default Card;
