@@ -2,22 +2,24 @@ import React from "react";
 import PropTypes from "prop-types";
 
 const LocationItems = (props) => {
-  const {city} = props;
+  const {city, activeLocation, onChangeLocation} = props;
 
   return (
     <li className="locations__item">
-      <a className={`locations__item-link tabs__item ${city.isCheck && `tabs__item--active`}`} href="#">
-        <span>{city.name}</span>
+      <a
+        className={`locations__item-link tabs__item ${city === activeLocation && `tabs__item--active`}`}
+        href="#"
+        onClick={() => onChangeLocation(city)}>
+        <span>{city}</span>
       </a>
     </li>
   );
 };
 
 LocationItems.propTypes = {
-  city: PropTypes.shape({
-    name: PropTypes.string,
-    isCheck: PropTypes.bool
-  })
+  city: PropTypes.string,
+  activeLocation: PropTypes.string,
+  onChangeLocation: PropTypes.func
 };
 
 export default LocationItems;

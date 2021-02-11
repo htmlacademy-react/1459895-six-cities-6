@@ -1,61 +1,19 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./components/app/app";
-import {сards} from "./components/mocks/mocks";
+import {offers} from "./mocks/offers";
+import {reviews} from "./mocks/reviews";
+import {nearbyOffers} from "./mocks/nearby-offers";
+import {Settings} from "./const";
 
-const Settings = {
-  RENT_PLACES_COUNT: 312,
-  CITIES: [
-    {
-      name: `Paris`,
-      isCheck: false
-    },
-    {
-      name: `Cologne`,
-      isCheck: false
-    },
-    {
-      name: `Brussels`,
-      isCheck: false
-    },
-    {
-      name: `Amsterdam`,
-      isCheck: true
-    },
-    {
-      name: `Hamburg`,
-      isCheck: false
-    },
-    {
-      name: `Dusseldorf`,
-      isCheck: false
-    }
-  ],
-  PLACES_OPTIONS: [
-    {
-      name: `Popular`,
-      isCheck: true
-    },
-    {
-      name: `Price: low to high`,
-      isCheck: false
-    },
-    {
-      name: `Price: high to low`,
-      isCheck: false
-    },
-    {
-      name: `Top rated first`,
-      isCheck: false
-    }
-  ]
-};
 
 ReactDOM.render(
     <App
       rentPlacesCount={Settings.RENT_PLACES_COUNT}
       cities={Settings.CITIES}
       options={Settings.PLACES_OPTIONS}
-      cards={сards}/>,
+      offers={offers}
+      reviews={reviews}
+      nearbyOffers={nearbyOffers}/>,
     document.querySelector(`#root`)
 );
