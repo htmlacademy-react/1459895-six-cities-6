@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 import PropTypes from "prop-types";
 import Header from "../header/header";
@@ -10,7 +10,6 @@ import NotFound from "../pages/not-found/not-found";
 import {OfferPropTypes, ReviewsPropTypes, NearbyOffersPropTypes} from "../../props";
 
 const App = (props) => {
-  const [selectedOffer, setSelectedOffer] = useState(0);
 
   const {rentPlacesCount, offers, cities, options, reviews, nearbyOffers} = props;
 
@@ -25,26 +24,24 @@ const App = (props) => {
               offers={offers}
               cities={cities}
               options={options}
-              onChangeSelectedOffer={setSelectedOffer}
             />
           </Route>
           <Route path="/favorites" exact>
             <Favorites
               offers={offers}
               cities={cities}
-              onChangeSelectedOffer={setSelectedOffer}
             />
           </Route>
           <Route path="/login" exact>
             <Login/>
           </Route>
-          <Route path="/offer/:id" exact>
-            <Property
-              offer={offers[selectedOffer]}
-              reviews={reviews}
-              nearbyOffers={nearbyOffers}
-              onChangeSelectedOffer={setSelectedOffer}
-            />
+          <Route path="/offer/:id" exact
+            render={({match}) => {
+              const {id} = match.params;
+              return <Property offer={offers[id - 1]} reviews={reviews}
+                nearbyOffers={nearbyOffers}/>
+              ;
+            }}>
           </Route>
           <Route>
             <NotFound/>

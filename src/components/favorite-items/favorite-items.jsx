@@ -4,7 +4,7 @@ import {OfferPropTypes} from "../../props";
 import Card from "../card/card";
 
 const FavoriteItems = (props) => {
-  const {city, offers, onChangeSelectedOffer, cardType} = props;
+  const {city, offers, cardType} = props;
 
   return (
     <li className="favorites__locations-items">
@@ -17,7 +17,7 @@ const FavoriteItems = (props) => {
       </div>
       <div className="favorites__places">
         {
-          offers.map((offer) => <Card cardType={cardType} onChangeSelectedOffer={onChangeSelectedOffer} offer={offer} key={offer.id}/>)
+          offers.map((offer) => <Card cardType={cardType} offer={offer} key={offer.id}/>)
         }
       </div>
     </li>
@@ -27,7 +27,6 @@ const FavoriteItems = (props) => {
 FavoriteItems.propTypes = {
   city: PropTypes.string,
   offers: PropTypes.arrayOf(OfferPropTypes),
-  onChangeSelectedOffer: PropTypes.func,
   cardType: PropTypes.string
 };
 

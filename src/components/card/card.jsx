@@ -7,13 +7,13 @@ import {CardType} from "../../const";
 
 const Card = (props) => {
 
-  const {offer, onChangeActiveCard, onChangeSelectedOffer, cardType} = props;
+  const {offer, onChangeActiveCard, cardType} = props;
   const {isPremium, previewImage, price, title, type, rating, isFavorite, id} = offer;
 
   const cardSettings = CardType[cardType];
 
   return (
-    <article className={`${cardSettings.article} place-card`} onMouseOver={onChangeActiveCard} onClick={() => onChangeSelectedOffer(id - 1)}>
+    <article className={`${cardSettings.article} place-card`} onMouseOver={onChangeActiveCard}>
       {
         isPremium && <div className="place-card__mark">
           <span>Premium</span>
@@ -55,7 +55,6 @@ const Card = (props) => {
 Card.propTypes = {
   offer: OfferPropTypes,
   onChangeActiveCard: PropTypes.func,
-  onChangeSelectedOffer: PropTypes.func,
   cardType: PropTypes.string
 };
 

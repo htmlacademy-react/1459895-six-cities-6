@@ -8,7 +8,9 @@ import PropertyReviews from "../../property-reviews/property-reviews";
 import {getRating} from "../../../common";
 import {OfferPropTypes, ReviewsPropTypes, NearbyOffersPropTypes} from "../../../props";
 
-const Property = ({offer, reviews, nearbyOffers, onChangeSelectedOffer}) => {
+const Property = (props) => {
+  const {offer, reviews, nearbyOffers} = props;
+
   const {images, isPremium, title, rating, isFavorite, type, bedrooms, maxAdults, price, goods, host, description} = offer;
 
   const imagesArray = images.length > 6 ? images.splice(0, 6) : images;
@@ -83,7 +85,7 @@ const Property = ({offer, reviews, nearbyOffers, onChangeSelectedOffer}) => {
           <div className="near-places__list places__list">
 
             {
-              nearbyOffers.map((item) => <Card onChangeSelectedOffer={onChangeSelectedOffer} cardType="NEARBY" offer={item} key={item.id}/>)
+              nearbyOffers.map((item) => <Card cardType="NEARBY" offer={item} key={item.id}/>)
             }
 
           </div>
@@ -96,8 +98,7 @@ const Property = ({offer, reviews, nearbyOffers, onChangeSelectedOffer}) => {
 Property.propTypes = {
   offer: OfferPropTypes,
   reviews: PropTypes.arrayOf(ReviewsPropTypes),
-  nearbyOffers: PropTypes.arrayOf(NearbyOffersPropTypes),
-  onChangeSelectedOffer: PropTypes.func
+  nearbyOffers: PropTypes.arrayOf(NearbyOffersPropTypes)
 };
 
 export default Property;

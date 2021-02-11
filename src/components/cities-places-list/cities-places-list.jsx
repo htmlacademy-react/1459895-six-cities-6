@@ -7,13 +7,13 @@ import {OfferPropTypes} from "../../props";
 const CitiesPlacesList = (props) => {
   const [activeCard, setActiveCard] = useState(0);
 
-  const {offers, activeLocation, onChangeSelectedOffer, cardType} = props;
+  const {offers, activeLocation, cardType} = props;
 
   return (
     <div className="cities__places-list places__list tabs__content">
       {
         offers.map((offer) => {
-          return offer.city.name === activeLocation ? <Card cardType={cardType} onChangeActiveCard={() => setActiveCard(offer.id)} onChangeSelectedOffer={onChangeSelectedOffer} offer={offer} key={offer.id}/> : ``;
+          return offer.city.name === activeLocation ? <Card cardType={cardType} onChangeActiveCard={() => setActiveCard(offer.id)} offer={offer} key={offer.id}/> : ``;
         })
       }
     </div>
@@ -23,7 +23,6 @@ const CitiesPlacesList = (props) => {
 CitiesPlacesList.propTypes = {
   offers: PropTypes.arrayOf(OfferPropTypes),
   activeLocation: PropTypes.string,
-  onChangeSelectedOffer: PropTypes.func,
   cardType: PropTypes.string
 };
 

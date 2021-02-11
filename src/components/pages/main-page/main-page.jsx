@@ -9,7 +9,7 @@ const MainPage = (props) => {
   const [activeLocation, setactiveLocation] = useState(`Amsterdam`);
   const [activeOption, setActiveOption] = useState(`Popular`);
 
-  const {rentPlacesCount, offers, cities, options, onChangeSelectedOffer} = props;
+  const {rentPlacesCount, offers, cities, options} = props;
 
   return (
     <>
@@ -33,7 +33,7 @@ const MainPage = (props) => {
                 </span>
                 <PlacesOptionsList activeOption={activeOption} onChangeOption={setActiveOption} options={options}/>
               </form>
-              <CitiesPlacesList cardType="CITIES" offers={offers} onChangeSelectedOffer={onChangeSelectedOffer} activeLocation={activeLocation}/>
+              <CitiesPlacesList cardType="CITIES" offers={offers} activeLocation={activeLocation}/>
             </section>
             <div className="cities__right-section">
               <section className="cities__map map"></section>
@@ -49,8 +49,7 @@ MainPage.propTypes = {
   rentPlacesCount: PropTypes.number.isRequired,
   offers: PropTypes.arrayOf(OfferPropTypes),
   cities: PropTypes.arrayOf(PropTypes.string),
-  options: PropTypes.arrayOf(PropTypes.string),
-  onChangeSelectedOffer: PropTypes.func
+  options: PropTypes.arrayOf(PropTypes.string)
 };
 
 export default MainPage;
