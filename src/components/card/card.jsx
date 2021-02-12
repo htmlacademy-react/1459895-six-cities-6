@@ -1,30 +1,30 @@
 import React from "react";
 import PropTypes from "prop-types";
-
-const WIDTH_PER_STAR = 20;
+import {Link} from "react-router-dom";
+import {getRating} from "../../common";
+import {OfferPropTypes} from "../../props";
+import {CardType} from "../../const";
 
 const Card = (props) => {
-  const {card} = props;
-  const {isPremium, previewImage, price, title, type, rating, isFavorite} = card;
 
-  const getRating = (item) => {
-    const itemRating = Math.round(item);
-    return {width: WIDTH_PER_STAR * itemRating + `%`};
-  };
+  const {offer, onChangeActiveCard, cardType} = props;
+  const {isPremium, previewImage, price, title, type, rating, isFavorite, id} = offer;
+
+  const cardSettings = CardType[cardType];
 
   return (
-    <article className="cities__place-card place-card">
+    <article className={`${cardSettings.article} place-card`} onMouseOver={onChangeActiveCard}>
       {
         isPremium && <div className="place-card__mark">
           <span>Premium</span>
         </div>
       }
-      <div className="cities__image-wrapper place-card__image-wrapper">
-        <a href="#">
-          <img className="place-card__image" src={previewImage} width="260" height="200" alt="Place image" />
-        </a>
+      <div className={`${cardSettings.img.class}__image-wrapper place-card__image-wrapper`}>
+        <Link to={`/offer/${id}`}>
+          <img className="place-card__image" src={previewImage} width={`${cardSettings.img.width}`} height={`${cardSettings.img.height}`} alt="Place image" />
+        </Link>
       </div>
-      <div className="place-card__info">
+      <div className={`${cardSettings.info} place-card__info`}>
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
             <b className="place-card__price-value">&euro;{price}</b>
@@ -44,7 +44,7 @@ const Card = (props) => {
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#">{title}</a>
+          <Link to={`/offer/${id}`}>{title}</Link>
         </h2>
         <p className="place-card__type">{type}</p>
       </div>
@@ -53,15 +53,9 @@ const Card = (props) => {
 };
 
 Card.propTypes = {
-  card: PropTypes.shape({
-    isPremium: PropTypes.bool,
-    previewImage: PropTypes.string,
-    price: PropTypes.number,
-    title: PropTypes.string,
-    type: PropTypes.string,
-    rating: PropTypes.number,
-    isFavorite: PropTypes.bool
-  })
+  offer: OfferPropTypes,
+  onChangeActiveCard: PropTypes.func,
+  cardType: PropTypes.string
 };
 
 export default Card;

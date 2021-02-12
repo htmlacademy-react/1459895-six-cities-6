@@ -1,18 +1,22 @@
-import React from "react";
+import React, {useState} from "react";
 import PropTypes from "prop-types";
-import Card from "../../card/card";
 import LocationList from "../../location-list/location-list";
 import PlacesOptionsList from "../../places-options-list/places-options-list";
+import CitiesPlacesList from "../../cities-places-list/cities-places-list";
+import {OfferPropTypes} from "../../../props";
 
 const MainPage = (props) => {
-  const {rentPlacesCount, cards, cities, options} = props;
+  const [activeLocation, setactiveLocation] = useState(`Amsterdam`);
+  const [activeOption, setActiveOption] = useState(`Popular`);
+
+  const {rentPlacesCount, offers, cities, options} = props;
 
   return (
     <>
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
-          <LocationList cities={cities}/>
+          <LocationList activeLocation={activeLocation} onChangeLocation={setactiveLocation} cities={cities}/>
         </div>
         <div className="cities">
           <div className="cities__places-container container">
@@ -27,13 +31,9 @@ const MainPage = (props) => {
                     <use xlink="true" href="#icon-arrow-select"></use>
                   </svg>
                 </span>
-                <PlacesOptionsList options={options}/>
+                <PlacesOptionsList activeOption={activeOption} onChangeOption={setActiveOption} options={options}/>
               </form>
-              <div className="cities__places-list places__list tabs__content">
-                {
-                  cards.map((card) => <Card card={card} key={card.id}/>)
-                }
-              </div>
+              <CitiesPlacesList cardType="CITIES" offers={offers} activeLocation={activeLocation}/>
             </section>
             <div className="cities__right-section">
               <section className="cities__map map"></section>
@@ -47,9 +47,9 @@ const MainPage = (props) => {
 
 MainPage.propTypes = {
   rentPlacesCount: PropTypes.number.isRequired,
-  cards: PropTypes.arrayOf(PropTypes.object),
-  cities: PropTypes.arrayOf(PropTypes.object),
-  options: PropTypes.arrayOf(PropTypes.object)
+  offers: PropTypes.arrayOf(OfferPropTypes),
+  cities: PropTypes.arrayOf(PropTypes.string),
+  options: PropTypes.arrayOf(PropTypes.string)
 };
 
 export default MainPage;
