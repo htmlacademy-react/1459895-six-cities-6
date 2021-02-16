@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import {useParams} from "react-router-dom";
 import Card from "../../card/card";
 import PropertyGallery from "../../property-gallery/property-gallery";
 import PropertyInsideItem from "../../property-inside-item/property-inside-item";
@@ -9,8 +10,9 @@ import {getRating} from "../../../common";
 import {OfferPropTypes, ReviewsPropTypes, NearbyOffersPropTypes} from "../../../props";
 
 const Property = (props) => {
-  const {offer, reviews, nearbyOffers} = props;
-
+  const {offers, reviews, nearbyOffers} = props;
+  const {id} = useParams();
+  const offer = offers.find((item) => item.id === +id);
   const {images, isPremium, title, rating, isFavorite, type, bedrooms, maxAdults, price, goods, host, description} = offer;
 
   const imagesArray = images.length > 6 ? images.splice(0, 6) : images;
@@ -96,7 +98,8 @@ const Property = (props) => {
 };
 
 Property.propTypes = {
-  offer: OfferPropTypes,
+  // offer: OfferPropTypes,
+  offers: PropTypes.arrayOf(OfferPropTypes),
   reviews: PropTypes.arrayOf(ReviewsPropTypes),
   nearbyOffers: PropTypes.arrayOf(NearbyOffersPropTypes)
 };

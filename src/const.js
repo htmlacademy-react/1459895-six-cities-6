@@ -36,8 +36,14 @@ const CardType = {
   }
 };
 
+const MapStyle = {
+  width: `100%`,
+  height: `100%`
+};
+
 export {
   Settings,
   WIDTH_PER_STAR,
-  CardType
+  CardType,
+  MapStyle
 };
