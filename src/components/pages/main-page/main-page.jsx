@@ -3,11 +3,13 @@ import PropTypes from "prop-types";
 import LocationList from "../../location-list/location-list";
 import PlacesOptionsList from "../../places-options-list/places-options-list";
 import CitiesPlacesList from "../../cities-places-list/cities-places-list";
+import Map from "../../map/map";
 import {OfferPropTypes} from "../../../props";
 
 const MainPage = (props) => {
   const [activeLocation, setactiveLocation] = useState(`Amsterdam`);
   const [activeOption, setActiveOption] = useState(`Popular`);
+  const [activeCard, setActiveCard] = useState(0);
 
   const {rentPlacesCount, offers, cities, options} = props;
 
@@ -26,17 +28,19 @@ const MainPage = (props) => {
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex="0">
-                  Popular
+                  {activeOption}
                   <svg className="places__sorting-arrow" width="7" height="4">
                     <use xlink="true" href="#icon-arrow-select"></use>
                   </svg>
                 </span>
                 <PlacesOptionsList activeOption={activeOption} onChangeOption={setActiveOption} options={options}/>
               </form>
-              <CitiesPlacesList cardType="CITIES" offers={offers} activeLocation={activeLocation}/>
+              <CitiesPlacesList cardType="CITIES" offers={offers} activeLocation={activeLocation} onChangeActiveCard={setActiveCard}/>
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <section className="cities__map map">
+                <Map offers={offers} activeLocation={activeLocation} activeCard={activeCard}/>
+              </section>
             </div>
           </div>
         </div>

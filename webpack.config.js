@@ -8,7 +8,7 @@ module.exports = {
     },
     devServer: {
         contentBase: path.resolve(__dirname, 'public'),
-        open: false,
+        open: true,
         port: 1337,
         historyApiFallback: true,
     },
@@ -18,9 +18,17 @@ module.exports = {
             test: /\.(js|jsx)$/,
             exclude: /node_modules/,
             use: {
-            loader: 'babel-loader',
+              loader: 'babel-loader',
             },
-        }
+        },
+        {
+          test: /\.css$/i,
+          use: ['style-loader', 'css-loader']
+      },
+      {
+          test: /\.(png|jpe?g|gif)$/i,
+          use: ['file-loader'],
+      }
         ],
     },
     resolve: {

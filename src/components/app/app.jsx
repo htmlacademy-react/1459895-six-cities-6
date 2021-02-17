@@ -35,14 +35,11 @@ const App = (props) => {
           <Route path="/login" exact>
             <Login/>
           </Route>
-          <Route path="/offer/:id" exact
-            render={({match}) => {
-              const {id} = match.params;
-              const offer = offers.find((item) => item.id === +id);
-              return <Property offer={offer} reviews={reviews}
-                nearbyOffers={nearbyOffers}/>
-              ;
-            }}>
+          <Route path="/offer/:id" exact>
+            <Property
+              offers={offers}
+              reviews={reviews}
+              nearbyOffers={nearbyOffers}/>
           </Route>
           <Route>
             <NotFound/>
