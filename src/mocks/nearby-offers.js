@@ -12,6 +12,7 @@ const nearbyOffers = [
       name: `Dusseldorf`,
       location: {latitude: 51.225402, longitude: 6.776314, zoom: 13}
     },
+    location: {latitude: 51.233402, longitude: 6.791314, zoom: 16},
   },
   {
     type: `Private room`,
@@ -26,6 +27,7 @@ const nearbyOffers = [
       name: `Dusseldorf`,
       location: {latitude: 51.225402, longitude: 6.776314, zoom: 13}
     },
+    location: {latitude: 51.243402, longitude: 6.791314, zoom: 16},
   },
   {
     type: `Аpartment`,
@@ -40,6 +42,7 @@ const nearbyOffers = [
       name: `Dusseldorf`,
       location: {latitude: 51.225402, longitude: 6.776314, zoom: 13}
     },
+    location: {latitude: 51.228402, longitude: 6.784314, zoom: 16},
   }
 ];
 

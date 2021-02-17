@@ -6,7 +6,7 @@ const Settings = {
 
 const WIDTH_PER_STAR = 20;
 
-const CardType = {
+const Type = {
   CITIES: {
     article: `cities__place-card`,
     img: {
@@ -14,7 +14,8 @@ const CardType = {
       width: 260,
       height: 200
     },
-    info: ``
+    info: ``,
+    divClass: `cities__places-list`
   },
   FAVORITE: {
     article: `favorites__card`,
@@ -23,7 +24,8 @@ const CardType = {
       width: 150,
       height: 110
     },
-    info: `favorites__card-info`
+    info: `favorites__card-info`,
+    divClass: `favorites__places`
   },
   NEARBY: {
     article: `near-places__card`,
@@ -32,18 +34,26 @@ const CardType = {
       width: 260,
       height: 200
     },
-    info: ``
+    info: ``,
+    divClass: `near-places__list`
   }
 };
 
 const MapStyle = {
-  width: `100%`,
-  height: `100%`
+  MAIN: {
+    width: `100%`,
+    height: `100%`
+  },
+  PROPERTY: {
+    width: `1144px`,
+    height: `579px`,
+    margin: `0 auto`
+  }
 };
 
 export {
   Settings,
   WIDTH_PER_STAR,
-  CardType,
-  MapStyle
+  MapStyle,
+  Type,
 };

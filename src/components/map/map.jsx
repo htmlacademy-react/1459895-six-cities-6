@@ -29,16 +29,11 @@ const setMarkers = (map, offers, activeCard) => {
   });
 };
 
-const getCityOffers = (offers, activeLocation) => {
-  return offers.filter((offer) => offer.city.name === activeLocation);
-};
-
-const Map = ({activeLocation, offers, activeCard}) => {
+const Map = ({activeLocation, offers, activeCard, mapStyle}) => {
   const mapRef = useRef();
 
   useEffect(() => {
     const cityObject = getActiveCityObject(activeLocation, offers);
-    const cityOffers = getCityOffers(offers, activeLocation);
     const {city: {location}} = cityObject;
     mapRef.current = leaflet.map(`map`, {
       center: [location.latitude, location.longitude],
@@ -53,7 +48,7 @@ const Map = ({activeLocation, offers, activeCard}) => {
       ]
     });
 
-    setMarkers(mapRef.current, cityOffers, activeCard);
+    setMarkers(mapRef.current, offers, activeCard);
 
     return () => {
       mapRef.current.remove();
@@ -61,12 +56,11 @@ const Map = ({activeLocation, offers, activeCard}) => {
   }, [activeLocation]);
 
   useEffect(() => {
-    const cityOffers = getCityOffers(offers, activeLocation);
-    setMarkers(mapRef.current, cityOffers, activeCard);
+    setMarkers(mapRef.current, offers, activeCard);
   }, [activeCard]);
 
   return (
-    <div id="map" ref={mapRef} style={MapStyle}></div>
+    <div id="map" ref={mapRef} style={MapStyle[mapStyle]}></div>
   );
 
 };
@@ -74,7 +68,8 @@ const Map = ({activeLocation, offers, activeCard}) => {
 Map.propTypes = {
   activeLocation: PropTypes.string,
   offers: PropTypes.arrayOf(OfferPropTypes),
-  activeCard: PropTypes.number
+  activeCard: PropTypes.number,
+  mapStyle: PropTypes.string
 };
 
 export default Map;

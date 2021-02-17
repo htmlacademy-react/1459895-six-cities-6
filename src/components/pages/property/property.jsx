@@ -1,16 +1,17 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {useParams} from "react-router-dom";
-import Card from "../../card/card";
 import PropertyGallery from "../../property-gallery/property-gallery";
 import PropertyInsideItem from "../../property-inside-item/property-inside-item";
 import PropertyHost from "../../property-host/property-host";
 import PropertyReviews from "../../property-reviews/property-reviews";
+import Map from "../../map/map";
+import PlacesList from "../../places-list/places-list";
 import {getRating} from "../../../common";
 import {OfferPropTypes, ReviewsPropTypes, NearbyOffersPropTypes} from "../../../props";
 
 const Property = (props) => {
-  const {offers, reviews, nearbyOffers} = props;
+  const {offers, reviews, nearbyOffers, activeLocation} = props;
   const {id} = useParams();
   const offer = offers.find((item) => item.id === +id);
   const {images, isPremium, title, rating, isFavorite, type, bedrooms, maxAdults, price, goods, host, description} = offer;
@@ -79,18 +80,14 @@ const Property = (props) => {
             <PropertyReviews reviews={reviews}/>
           </div>
         </div>
-        <section className="property__map map"></section>
+        <section className="property__map map">
+          <Map offers={nearbyOffers} activeLocation={activeLocation} mapStyle="PROPERTY"/>
+        </section>
       </section>
       <div className="container">
         <section className="near-places places">
           <h2 className="near-places__title">Other places in the neighbourhood</h2>
-          <div className="near-places__list places__list">
-
-            {
-              nearbyOffers.map((item) => <Card cardType="NEARBY" offer={item} key={item.id}/>)
-            }
-
-          </div>
+          <PlacesList type="NEARBY" offers={nearbyOffers}/>
         </section>
       </div>
     </main>
@@ -98,10 +95,10 @@ const Property = (props) => {
 };
 
 Property.propTypes = {
-  // offer: OfferPropTypes,
   offers: PropTypes.arrayOf(OfferPropTypes),
   reviews: PropTypes.arrayOf(ReviewsPropTypes),
-  nearbyOffers: PropTypes.arrayOf(NearbyOffersPropTypes)
+  nearbyOffers: PropTypes.arrayOf(NearbyOffersPropTypes),
+  activeLocation: PropTypes.string
 };
 
 export default Property;
