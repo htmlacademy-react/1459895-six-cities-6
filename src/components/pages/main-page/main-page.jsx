@@ -2,23 +2,24 @@ import React, {useState} from "react";
 import PropTypes from "prop-types";
 import LocationList from "../../location-list/location-list";
 import PlacesOptionsList from "../../places-options-list/places-options-list";
-import CitiesPlacesList from "../../cities-places-list/cities-places-list";
 import Map from "../../map/map";
+import PlacesList from "../../places-list/places-list";
 import {OfferPropTypes} from "../../../props";
 
 const MainPage = (props) => {
-  const [activeLocation, setactiveLocation] = useState(`Amsterdam`);
   const [activeOption, setActiveOption] = useState(`Popular`);
   const [activeCard, setActiveCard] = useState(0);
 
-  const {rentPlacesCount, offers, cities, options} = props;
+  const {rentPlacesCount, offers, cities, options, activeLocation, onChangeLocation} = props;
+
+  const activeOffers = offers.filter((offer) => offer.city.name === activeLocation);
 
   return (
     <>
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
-          <LocationList activeLocation={activeLocation} onChangeLocation={setactiveLocation} cities={cities}/>
+          <LocationList activeLocation={activeLocation} onChangeLocation={onChangeLocation} cities={cities}/>
         </div>
         <div className="cities">
           <div className="cities__places-container container">
@@ -35,11 +36,13 @@ const MainPage = (props) => {
                 </span>
                 <PlacesOptionsList activeOption={activeOption} onChangeOption={setActiveOption} options={options}/>
               </form>
-              <CitiesPlacesList cardType="CITIES" offers={offers} activeLocation={activeLocation} onChangeActiveCard={setActiveCard}/>
+              <PlacesList type="CITIES" offers={activeOffers} onChangeActiveCard={setActiveCard}/>
             </section>
             <div className="cities__right-section">
               <section className="cities__map map">
-                <Map offers={offers} activeLocation={activeLocation} activeCard={activeCard}/>
+                {
+                  activeOffers.length > 0 ? <Map offers={activeOffers} activeLocation={activeLocation} activeCard={activeCard} mapStyle="MAIN"/> : ``
+                }
               </section>
             </div>
           </div>
@@ -53,7 +56,9 @@ MainPage.propTypes = {
   rentPlacesCount: PropTypes.number.isRequired,
   offers: PropTypes.arrayOf(OfferPropTypes),
   cities: PropTypes.arrayOf(PropTypes.string),
-  options: PropTypes.arrayOf(PropTypes.string)
+  options: PropTypes.arrayOf(PropTypes.string),
+  activeLocation: PropTypes.string,
+  onChangeLocation: PropTypes.func
 };
 
 export default MainPage;

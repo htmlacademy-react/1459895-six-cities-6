@@ -3,17 +3,21 @@ import PropTypes from "prop-types";
 import {Link} from "react-router-dom";
 import {getRating} from "../../common";
 import {OfferPropTypes} from "../../props";
-import {CardType} from "../../const";
+import {Type} from "../../const";
 
 const Card = (props) => {
 
   const {offer, onChangeActiveCard, cardType} = props;
   const {isPremium, previewImage, price, title, type, rating, isFavorite, id} = offer;
 
-  const cardSettings = CardType[cardType];
+  const cardSettings = Type[cardType];
+
+  const handleCardHover = () => {
+    return onChangeActiveCard ? onChangeActiveCard(offer.id) : null;
+  };
 
   return (
-    <article className={`${cardSettings.article} place-card`} onMouseOver={onChangeActiveCard}>
+    <article className={`${cardSettings.article} place-card`} onMouseOver={handleCardHover}>
       {
         isPremium && <div className="place-card__mark">
           <span>Premium</span>

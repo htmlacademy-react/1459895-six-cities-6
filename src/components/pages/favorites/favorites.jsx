@@ -19,7 +19,7 @@ const Favorites = (props) => {
               {
                 cities.map((city, i) => {
                   const filteredOffers = favoriteOffers.filter((offer) => offer.city.name === city);
-                  return filteredOffers.length < 1 ? `` : <FavoriteItems cardType="FAVORITE" onChangeSelectedOffer={onChangeSelectedOffer} offers={filteredOffers} city={city} key={i}/>;
+                  return filteredOffers.length < 1 ? `` : <FavoriteItems type="FAVORITE" onChangeSelectedOffer={onChangeSelectedOffer} offers={filteredOffers} city={city} key={i}/>;
                 })
               }
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 import PropTypes from "prop-types";
 import Header from "../header/header";
@@ -10,6 +10,7 @@ import NotFound from "../pages/not-found/not-found";
 import {OfferPropTypes, ReviewsPropTypes, NearbyOffersPropTypes} from "../../props";
 
 const App = (props) => {
+  const [activeLocation, setactiveLocation] = useState(`Amsterdam`);
 
   const {rentPlacesCount, offers, cities, options, reviews, nearbyOffers} = props;
 
@@ -24,6 +25,8 @@ const App = (props) => {
               offers={offers}
               cities={cities}
               options={options}
+              activeLocation={activeLocation}
+              onChangeLocation={setactiveLocation}
             />
           </Route>
           <Route path="/favorites" exact>
@@ -39,7 +42,9 @@ const App = (props) => {
             <Property
               offers={offers}
               reviews={reviews}
-              nearbyOffers={nearbyOffers}/>
+              nearbyOffers={nearbyOffers}
+              activeLocation={activeLocation}
+            />
           </Route>
           <Route>
             <NotFound/>
