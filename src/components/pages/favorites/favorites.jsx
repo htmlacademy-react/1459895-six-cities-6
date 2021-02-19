@@ -1,11 +1,12 @@
 import React from "react";
 import {Link} from "react-router-dom";
 import PropTypes from "prop-types";
-import FavoriteItems from "../../favorite-items/favorite-items";
+import {connect} from "react-redux";
 import {OfferPropTypes} from "../../../props";
+import FavoriteList from "../../favorite-list/favorite-list";
 
 const Favorites = (props) => {
-  const {offers, cities, onChangeSelectedOffer} = props;
+  const {offers, cities} = props;
   const favoriteOffers = offers.filter((offer) => offer.isFavorite);
 
   return (
@@ -13,17 +14,8 @@ const Favorites = (props) => {
       <main className="page__main page__main--favorites">
         <div className="page__favorites-container container">
           <section className="favorites">
-            <h1 className="favorites__title">Saved listing</h1>
-            <ul className="favorites__list">
-
-              {
-                cities.map((city, i) => {
-                  const filteredOffers = favoriteOffers.filter((offer) => offer.city.name === city);
-                  return filteredOffers.length < 1 ? `` : <FavoriteItems type="FAVORITE" onChangeSelectedOffer={onChangeSelectedOffer} offers={filteredOffers} city={city} key={i}/>;
-                })
-              }
-
-            </ul>
+            <h1 className="favorites__title">{favoriteOffers.length && `Saved listing` || `Nothing yet saved`}</h1>
+            <FavoriteList offers={favoriteOffers} cities={cities} type="FAVORITE"/>
           </section>
         </div>
       </main>
@@ -37,9 +29,14 @@ const Favorites = (props) => {
 };
 
 Favorites.propTypes = {
-  cities: PropTypes.array,
+  cities: PropTypes.arrayOf(PropTypes.string),
   offers: PropTypes.arrayOf(OfferPropTypes),
-  onChangeSelectedOffer: PropTypes.func
 };
 
-export default Favorites;
+const mapStateToProps = (state) => {
+  return {
+    offers: state.offers,
+  };
+};
+
+export default connect(mapStateToProps)(Favorites);
