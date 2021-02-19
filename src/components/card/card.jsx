@@ -12,12 +12,8 @@ const Card = (props) => {
 
   const cardSettings = Type[cardType];
 
-  const handleCardHover = () => {
-    return onChangeActiveCard ? onChangeActiveCard(offer.id) : null;
-  };
-
   return (
-    <article className={`${cardSettings.article} place-card`} onMouseOver={handleCardHover}>
+    <article className={`${cardSettings.article} place-card`} onMouseOver={() => onChangeActiveCard(offer.id)}>
       {
         isPremium && <div className="place-card__mark">
           <span>Premium</span>
@@ -61,5 +57,10 @@ Card.propTypes = {
   onChangeActiveCard: PropTypes.func,
   cardType: PropTypes.string
 };
+
+Card.defaultProps = {
+  onChangeActiveCard: () => {},
+};
+
 
 export default Card;

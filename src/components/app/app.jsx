@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 import PropTypes from "prop-types";
 import Header from "../header/header";
@@ -10,9 +10,8 @@ import NotFound from "../pages/not-found/not-found";
 import {OfferPropTypes, ReviewsPropTypes, NearbyOffersPropTypes} from "../../props";
 
 const App = (props) => {
-  const [activeLocation, setactiveLocation] = useState(`Amsterdam`);
 
-  const {rentPlacesCount, offers, cities, options, reviews, nearbyOffers} = props;
+  const {cities, options, reviews, nearbyOffers} = props;
 
   return (
     <BrowserRouter>
@@ -21,17 +20,12 @@ const App = (props) => {
         <Switch>
           <Route path="/" exact>
             <MainPage
-              rentPlacesCount={rentPlacesCount}
-              offers={offers}
               cities={cities}
               options={options}
-              activeLocation={activeLocation}
-              onChangeLocation={setactiveLocation}
             />
           </Route>
           <Route path="/favorites" exact>
             <Favorites
-              offers={offers}
               cities={cities}
             />
           </Route>
@@ -40,10 +34,8 @@ const App = (props) => {
           </Route>
           <Route path="/offer/:id" exact>
             <Property
-              offers={offers}
               reviews={reviews}
               nearbyOffers={nearbyOffers}
-              activeLocation={activeLocation}
             />
           </Route>
           <Route>
@@ -56,7 +48,6 @@ const App = (props) => {
 };
 
 App.propTypes = {
-  rentPlacesCount: PropTypes.number.isRequired,
   cities: PropTypes.arrayOf(PropTypes.string),
   options: PropTypes.arrayOf(PropTypes.string),
   offers: PropTypes.arrayOf(OfferPropTypes),

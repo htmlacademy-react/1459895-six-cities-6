@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {useParams} from "react-router-dom";
+import {connect} from "react-redux";
 import PropertyGallery from "../../property-gallery/property-gallery";
 import PropertyInsideItem from "../../property-inside-item/property-inside-item";
 import PropertyHost from "../../property-host/property-host";
@@ -101,4 +102,11 @@ Property.propTypes = {
   activeLocation: PropTypes.string
 };
 
-export default Property;
+const mapStateToProps = (state) => {
+  return {
+    activeLocation: state.city,
+    offers: state.offers,
+  };
+};
+
+export default connect(mapStateToProps)(Property);
