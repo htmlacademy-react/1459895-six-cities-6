@@ -109,4 +109,5 @@ const mapStateToProps = (state) => {
   };
 };
 
+export {Property};
 export default connect(mapStateToProps)(Property);

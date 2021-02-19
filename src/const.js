@@ -1,8 +1,5 @@
-const Settings = {
-  RENT_PLACES_COUNT: 312,
-  CITIES: [`Paris`, `Cologne`, `Brussels`, `Amsterdam`, `Hamburg`, `Dusseldorf`],
-  PLACES_OPTIONS: [`Popular`, `Price: low to high`, `Price: high to low`, `Top rated first`]
-};
+const CITIES = [`Paris`, `Cologne`, `Brussels`, `Amsterdam`, `Hamburg`, `Dusseldorf`];
+const PLACES_OPTIONS = [`Popular`, `Price: low to high`, `Price: high to low`, `Top rated first`];
 
 const WIDTH_PER_STAR = 20;
 
@@ -52,8 +49,9 @@ const MapStyle = {
 };
 
 export {
-  Settings,
   WIDTH_PER_STAR,
   MapStyle,
   Type,
+  PLACES_OPTIONS,
+  CITIES
 };

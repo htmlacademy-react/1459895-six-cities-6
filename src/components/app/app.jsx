@@ -11,7 +11,7 @@ import {OfferPropTypes, ReviewsPropTypes, NearbyOffersPropTypes} from "../../pro
 
 const App = (props) => {
 
-  const {cities, options, reviews, nearbyOffers} = props;
+  const {reviews, nearbyOffers} = props;
 
   return (
     <BrowserRouter>
@@ -19,15 +19,10 @@ const App = (props) => {
         <Header/>
         <Switch>
           <Route path="/" exact>
-            <MainPage
-              cities={cities}
-              options={options}
-            />
+            <MainPage/>
           </Route>
           <Route path="/favorites" exact>
-            <Favorites
-              cities={cities}
-            />
+            <Favorites/>
           </Route>
           <Route path="/login" exact>
             <Login/>
