@@ -6,7 +6,7 @@ import {OfferPropTypes} from "../../../props";
 import FavoriteList from "../../favorite-list/favorite-list";
 
 const Favorites = (props) => {
-  const {offers, cities} = props;
+  const {offers} = props;
   const favoriteOffers = offers.filter((offer) => offer.isFavorite);
 
   return (
@@ -15,7 +15,7 @@ const Favorites = (props) => {
         <div className="page__favorites-container container">
           <section className="favorites">
             <h1 className="favorites__title">{favoriteOffers.length && `Saved listing` || `Nothing yet saved`}</h1>
-            <FavoriteList offers={favoriteOffers} cities={cities} type="FAVORITE"/>
+            <FavoriteList offers={favoriteOffers} type="FAVORITE"/>
           </section>
         </div>
       </main>
@@ -29,7 +29,6 @@ const Favorites = (props) => {
 };
 
 Favorites.propTypes = {
-  cities: PropTypes.arrayOf(PropTypes.string),
   offers: PropTypes.arrayOf(OfferPropTypes),
 };
 
@@ -39,4 +38,5 @@ const mapStateToProps = (state) => {
   };
 };
 
+export {Favorites};
 export default connect(mapStateToProps)(Favorites);
