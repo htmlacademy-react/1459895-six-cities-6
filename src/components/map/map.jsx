@@ -31,6 +31,7 @@ const setMarkers = (map, offers, activeCard) => {
 
 const Map = ({activeLocation, offers, activeCard, mapStyle}) => {
   const mapRef = useRef();
+  console.log(activeLocation);
 
   useEffect(() => {
     const cityObject = getActiveCityObject(activeLocation, offers);

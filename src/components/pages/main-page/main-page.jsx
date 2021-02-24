@@ -1,18 +1,25 @@
 import React, {useState} from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
-import {setCity} from "../../store/action-creators";
+import * as ActionCreator from "../../store/action-creators";
 import {getActiveOffers} from "../../store/selectors";
 import LocationList from "../../location-list/location-list";
 import Map from "../../map/map";
 import PlacesList from "../../places-list/places-list";
 import {OfferPropTypes} from "../../../props";
 import PlacesSortingForm from "../../places-sorting-form/places-sorting-form";
+import Spinner from "../../spinner/spinner";
 
 const MainPage = (props) => {
   const [activeCard, setActiveCard] = useState(0);
 
-  const {activeOffers, activeLocation, onChangeLocation} = props;
+  const {activeOffers, activeLocation, onChangeLocation, isDataLoaded} = props;
+
+  if (!isDataLoaded) {
+    return (
+      <Spinner/>
+    );
+  }
 
   return (
     <>
@@ -47,18 +54,22 @@ MainPage.propTypes = {
   activeOffers: PropTypes.arrayOf(OfferPropTypes),
   activeLocation: PropTypes.string,
   onChangeLocation: PropTypes.func,
+  isDataLoaded: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => {
   return {
     activeLocation: state.city,
     activeOffers: getActiveOffers(state),
+    isDataLoaded: state.isDataLoaded
   };
 };
 
-const mapDispatchToProps = {
-  onChangeLocation: setCity,
-};
+const mapDispatchToProps = (dispatch) => ({
+  onChangeLocation(city) {
+    dispatch(ActionCreator.setCity(city));
+  }
+});
 
 export {MainPage};
 export default connect(mapStateToProps, mapDispatchToProps)(MainPage);

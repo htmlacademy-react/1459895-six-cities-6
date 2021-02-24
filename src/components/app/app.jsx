@@ -11,7 +11,7 @@ import {OfferPropTypes, ReviewsPropTypes, NearbyOffersPropTypes} from "../../pro
 
 const App = (props) => {
 
-  const {reviews, nearbyOffers} = props;
+  const {reviews} = props;
 
   return (
     <BrowserRouter>
@@ -30,7 +30,7 @@ const App = (props) => {
           <Route path="/offer/:id" exact>
             <Property
               reviews={reviews}
-              nearbyOffers={nearbyOffers}
+              // nearbyOffers={nearbyOffers}
             />
           </Route>
           <Route>

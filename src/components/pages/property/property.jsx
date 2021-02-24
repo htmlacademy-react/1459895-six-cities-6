@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import PropTypes from "prop-types";
 import {useParams} from "react-router-dom";
 import {connect} from "react-redux";
@@ -10,14 +10,26 @@ import Map from "../../map/map";
 import PlacesList from "../../places-list/places-list";
 import {getRating} from "../../../common";
 import {OfferPropTypes, ReviewsPropTypes, NearbyOffersPropTypes} from "../../../props";
+import {fetchNearbyOffersList} from "../../api/api-actions";
 
 const Property = (props) => {
-  const {offers, reviews, nearbyOffers, activeLocation} = props;
+  const {offers, reviews, nearbyOffers, activeLocation, onLoadNearbyOffers, isNeabyOffersLoaded, activeCardId, onChangeId} = props;
   const {id} = useParams();
+
   const offer = offers.find((item) => item.id === +id);
   const {images, isPremium, title, rating, isFavorite, type, bedrooms, maxAdults, price, goods, host, description} = offer;
 
   const imagesArray = images.length > 6 ? images.splice(0, 6) : images;
+
+  useEffect(() => {
+    onLoadNearbyOffers(id);
+  }, [id]);
+
+  if (!isNeabyOffersLoaded) {
+    return (
+      <p>HAY</p>
+    );
+  }
 
   return (
     <main className="page__main page__main--property">
@@ -99,15 +111,25 @@ Property.propTypes = {
   offers: PropTypes.arrayOf(OfferPropTypes),
   reviews: PropTypes.arrayOf(ReviewsPropTypes),
   nearbyOffers: PropTypes.arrayOf(NearbyOffersPropTypes),
-  activeLocation: PropTypes.string
+  activeLocation: PropTypes.string,
+  isNeabyOffersLoaded: PropTypes.bool,
+  onLoadNearbyOffers: PropTypes.func,
 };
 
 const mapStateToProps = (state) => {
   return {
     activeLocation: state.city,
     offers: state.offers,
+    nearbyOffers: state.nearbyOffers,
+    isNeabyOffersLoaded: state.isNeabyOffersLoaded,
   };
 };
 
+const mapDispatchToProps = (dispatch) => ({
+  onLoadNearbyOffers(id) {
+    dispatch(fetchNearbyOffersList(id));
+  }
+});
+
 export {Property};
-export default connect(mapStateToProps)(Property);
+export default connect(mapStateToProps, mapDispatchToProps)(Property);
