@@ -10,26 +10,28 @@ import Map from "../../map/map";
 import PlacesList from "../../places-list/places-list";
 import {getRating} from "../../../common";
 import {OfferPropTypes, ReviewsPropTypes, NearbyOffersPropTypes} from "../../../props";
-import {fetchNearbyOffersList} from "../../api/api-actions";
+import {fetchNearbyOffersList, fetchReviews} from "../../api/api-actions";
+import Spinner from "../../spinner/spinner";
 
 const Property = (props) => {
-  const {offers, reviews, nearbyOffers, activeLocation, onLoadNearbyOffers, isNeabyOffersLoaded, activeCardId, onChangeId} = props;
+  const {offers, reviews, nearbyOffers, onLoadNearbyOffers, onLoadReviews, isNeabyOffersLoaded} = props;
   const {id} = useParams();
+
+  useEffect(() => {
+    onLoadNearbyOffers(id);
+    onLoadReviews(id);
+  }, [id]);
+
+  if (!offers.length && !isNeabyOffersLoaded) {
+    return (
+      <Spinner/>
+    );
+  }
 
   const offer = offers.find((item) => item.id === +id);
   const {images, isPremium, title, rating, isFavorite, type, bedrooms, maxAdults, price, goods, host, description} = offer;
 
   const imagesArray = images.length > 6 ? images.splice(0, 6) : images;
-
-  useEffect(() => {
-    onLoadNearbyOffers(id);
-  }, [id]);
-
-  if (!isNeabyOffersLoaded) {
-    return (
-      <p>HAY</p>
-    );
-  }
 
   return (
     <main className="page__main page__main--property">
@@ -94,7 +96,7 @@ const Property = (props) => {
           </div>
         </div>
         <section className="property__map map">
-          <Map offers={nearbyOffers} activeLocation={activeLocation} mapStyle="PROPERTY"/>
+          <Map offers={nearbyOffers} activeLocation={offer} mapStyle="PROPERTY"/>
         </section>
       </section>
       <div className="container">
@@ -111,23 +113,26 @@ Property.propTypes = {
   offers: PropTypes.arrayOf(OfferPropTypes),
   reviews: PropTypes.arrayOf(ReviewsPropTypes),
   nearbyOffers: PropTypes.arrayOf(NearbyOffersPropTypes),
-  activeLocation: PropTypes.string,
   isNeabyOffersLoaded: PropTypes.bool,
   onLoadNearbyOffers: PropTypes.func,
+  onLoadReviews: PropTypes.func
 };
 
 const mapStateToProps = (state) => {
   return {
-    activeLocation: state.city,
     offers: state.offers,
     nearbyOffers: state.nearbyOffers,
     isNeabyOffersLoaded: state.isNeabyOffersLoaded,
+    reviews: state.reviews
   };
 };
 
 const mapDispatchToProps = (dispatch) => ({
   onLoadNearbyOffers(id) {
     dispatch(fetchNearbyOffersList(id));
+  },
+  onLoadReviews(id) {
+    dispatch(fetchReviews(id));
   }
 });
 

@@ -9,6 +9,8 @@ const initialState = {
   isDataLoaded: false,
   isNeabyOffersLoaded: false,
   nearbyOffers: [],
+  reviews: [],
+  favorites: [],
 };
 
 const reducer = (state = initialState, action) => {
@@ -39,6 +41,21 @@ const reducer = (state = initialState, action) => {
         ...state,
         nearbyOffers: action.payload,
         isNeabyOffersLoaded: true
+      };
+    case ActionType.SET_IS_NEARBY_OFFERS_LOADED:
+      return {
+        ...state,
+        isNeabyOffersLoaded: false
+      };
+    case ActionType.SET_REVIEWS:
+      return {
+        ...state,
+        reviews: action.payload
+      };
+    case ActionType.SET_FAVORITES:
+      return {
+        ...state,
+        favorites: action.payload
       };
     default:
       return state;

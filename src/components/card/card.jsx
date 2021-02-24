@@ -62,5 +62,4 @@ Card.defaultProps = {
   onChangeActiveCard: () => {},
 };
 
-
 export default Card;

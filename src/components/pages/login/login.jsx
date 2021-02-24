@@ -26,11 +26,25 @@ const Login = () => {
       <form className="login__form form" onSubmit={handleSubmit} action="#" method="post">
         <div className="login__input-wrapper form__input-wrapper">
           <label className="visually-hidden">E-mail</label>
-          <input className="login__input form__input" ref={emailRef} type="email" name="email" placeholder="Email" required="" />
+          <input
+            className="login__input form__input"
+            ref={emailRef}
+            type="email"
+            name="email"
+            placeholder="Email"
+            required=""
+          />
         </div>
         <div className="login__input-wrapper form__input-wrapper">
           <label className="visually-hidden">Password</label>
-          <input className="login__input form__input" ref={passwordRef} type="password" name="password" placeholder="Password" required="" />
+          <input
+            className="login__input form__input"
+            ref={passwordRef}
+            type="password"
+            name="password"
+            placeholder="Password"
+            required=""
+          />
         </div>
         <button
           className="login__submit form__submit button"

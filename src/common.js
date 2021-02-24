@@ -32,8 +32,29 @@ const adaptToClient = (data) => {
   return adaptedData;
 };
 
+const adaptReviewsToClient = (data) => {
+  const adaptedData = Object.assign(
+      {},
+      data,
+      {
+        user: {
+          ...data.user,
+          avatarUrl: data.user.avatar_url,
+          isPro: data.user.is_pro,
+        }
+      }
+  );
+
+  delete adaptedData.user.avatar_url;
+  delete adaptedData.user.is_pro;
+
+
+  return adaptedData;
+};
+
 export {
   getRating,
-  adaptToClient
+  adaptToClient,
+  adaptReviewsToClient
 };
 
