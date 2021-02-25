@@ -1,5 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
+import * as ActionCreator from "../store/action-creators";
+import {connect} from "react-redux";
 
 const LocationItems = (props) => {
   const {city, activeLocation, onChangeLocation} = props;
@@ -22,4 +24,16 @@ LocationItems.propTypes = {
   onChangeLocation: PropTypes.func
 };
 
-export default LocationItems;
+const mapStateToProps = (state) => {
+  return {
+    activeLocation: state.city,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  onChangeLocation(city) {
+    dispatch(ActionCreator.setCity(city));
+  }
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(LocationItems);

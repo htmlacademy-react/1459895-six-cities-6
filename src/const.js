@@ -48,10 +48,16 @@ const MapStyle = {
   }
 };
 
+const AuthorizationStatus = {
+  AUTH: `AUTH`,
+  NO_AUTH: `NO_AUTH`
+};
+
 export {
   WIDTH_PER_STAR,
   MapStyle,
   Type,
   PLACES_OPTIONS,
-  CITIES
+  CITIES,
+  AuthorizationStatus
 };

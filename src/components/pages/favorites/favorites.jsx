@@ -1,13 +1,25 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {Link} from "react-router-dom";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {OfferPropTypes} from "../../../props";
 import FavoriteList from "../../favorite-list/favorite-list";
+import {fetchFavorites} from "../../api/api-actions";
+import Spinner from "../../spinner/spinner";
 
 const Favorites = (props) => {
-  const {offers} = props;
+  const {offers, onLoadFavorites} = props;
   const favoriteOffers = offers.filter((offer) => offer.isFavorite);
+
+  useEffect(() => {
+    onLoadFavorites();
+  });
+
+  if (!offers.length) {
+    return (
+      <Spinner/>
+    );
+  }
 
   return (
     <>
@@ -30,13 +42,20 @@ const Favorites = (props) => {
 
 Favorites.propTypes = {
   offers: PropTypes.arrayOf(OfferPropTypes),
+  onLoadFavorites: PropTypes.func
 };
 
 const mapStateToProps = (state) => {
   return {
-    offers: state.offers,
+    offers: state.favorites,
   };
 };
 
+const mapDispatchToProps = (dispatch) => ({
+  onLoadFavorites() {
+    dispatch(fetchFavorites());
+  }
+});
+
 export {Favorites};
-export default connect(mapStateToProps)(Favorites);
+export default connect(mapStateToProps, mapDispatchToProps)(Favorites);

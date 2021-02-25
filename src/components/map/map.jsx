@@ -16,10 +16,6 @@ const ACTIVE_POINT_ICON = leaflet.icon({
   iconSize: [27, 39]
 });
 
-const getActiveCityObject = (activeLocation, offers) => {
-  return offers.find((offer) => offer.city.name === activeLocation);
-};
-
 const setMarkers = (map, offers, activeCard) => {
   offers.forEach((offer) => {
     leaflet
@@ -30,11 +26,11 @@ const setMarkers = (map, offers, activeCard) => {
 };
 
 const Map = ({activeLocation, offers, activeCard, mapStyle}) => {
+
   const mapRef = useRef();
 
   useEffect(() => {
-    const cityObject = getActiveCityObject(activeLocation, offers);
-    const {city: {location}} = cityObject;
+    const {city: {location}} = activeLocation;
     mapRef.current = leaflet.map(`map`, {
       center: [location.latitude, location.longitude],
       zoom: location.zoom,
@@ -66,7 +62,7 @@ const Map = ({activeLocation, offers, activeCard, mapStyle}) => {
 };
 
 Map.propTypes = {
-  activeLocation: PropTypes.string,
+  activeLocation: OfferPropTypes,
   offers: PropTypes.arrayOf(OfferPropTypes),
   activeCard: PropTypes.number,
   mapStyle: PropTypes.string
