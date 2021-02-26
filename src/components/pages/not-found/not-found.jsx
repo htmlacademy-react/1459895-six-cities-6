@@ -1,5 +1,6 @@
 import React from "react";
 import {Link} from "react-router-dom";
+import {AppRoute} from "../../../const";
 
 const LinkStyle = {
   display: `flex`,
@@ -14,7 +15,7 @@ const NotFound = () => {
   return (
     <div style={{margin: `0 auto`}}>
       <h1>404 Not Found</h1>
-      <Link to="/" style={LinkStyle}>
+      <Link to={`${AppRoute.MAIN}`} style={LinkStyle}>
         Back to main page
       </Link>
     </div>

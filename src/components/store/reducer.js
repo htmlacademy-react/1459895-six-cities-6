@@ -1,16 +1,16 @@
 import * as ActionType from "./actions";
-import {AuthorizationStatus} from "../../const";
 
 const initialState = {
   city: `Paris`,
   offers: [],
   option: `Popular`,
-  authorizationStatus: AuthorizationStatus.NO_AUTH,
+  authInfo: null,
   isDataLoaded: false,
   isNeabyOffersLoaded: false,
   nearbyOffers: [],
   reviews: [],
   favorites: [],
+  isFavoritesLoaded: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -31,10 +31,10 @@ const reducer = (state = initialState, action) => {
         offers: action.payload,
         isDataLoaded: true
       };
-    case ActionType.REQUIRED_AUTHORIZATION:
+    case ActionType.SET_AUTHORIZATION:
       return {
         ...state,
-        authorizationStatus: action.payload
+        authInfo: action.payload
       };
     case ActionType.SET_NEABY_OFFERS:
       return {
@@ -55,7 +55,8 @@ const reducer = (state = initialState, action) => {
     case ActionType.SET_FAVORITES:
       return {
         ...state,
-        favorites: action.payload
+        favorites: action.payload,
+        isFavoritesLoaded: true
       };
     default:
       return state;

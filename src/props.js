@@ -67,9 +67,18 @@ const NearbyOffersPropTypes = PropTypes.shape({
   }),
 });
 
+const UserInfoPropTypes = PropTypes.shape({
+  avatarUrl: PropTypes.string,
+  email: PropTypes.string,
+  id: PropTypes.number,
+  isPro: PropTypes.bool,
+  name: PropTypes.string
+});
+
 export {
   OfferPropTypes,
   ReviewsPropTypes,
-  NearbyOffersPropTypes
+  NearbyOffersPropTypes,
+  UserInfoPropTypes
 }
 ;

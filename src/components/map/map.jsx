@@ -16,18 +16,11 @@ const ACTIVE_POINT_ICON = leaflet.icon({
   iconSize: [27, 39]
 });
 
-const setMarkers = (map, offers, activeCard) => {
-  offers.forEach((offer) => {
-    leaflet
-      .marker([offer.location.latitude, offer.location.longitude], {icon: offer.id === activeCard ? ACTIVE_POINT_ICON : ICON})
-      .addTo(map)
-      .bindPopup(offer.title);
-  });
-};
-
 const Map = ({activeLocation, offers, activeCard, mapStyle}) => {
 
   const mapRef = useRef();
+  const markersRef = useRef(leaflet.layerGroup([]));
+  const activeMarkerRef = useRef(leaflet.layerGroup([]));
 
   useEffect(() => {
     const {city: {location}} = activeLocation;
@@ -36,23 +29,61 @@ const Map = ({activeLocation, offers, activeCard, mapStyle}) => {
       zoom: location.zoom,
       zoomControl: false,
       marker: true,
-      layers: [
-        leaflet
+      layers: [markersRef.current, activeMarkerRef.current]
+    });
+
+    leaflet
           .tileLayer(`https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png`, {
             attribution: `&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>`
           })
-      ]
-    });
+          .addTo(mapRef.current);
 
-    setMarkers(mapRef.current, offers, activeCard);
+    mapRef.current.setView([location.latitude, location.longitude], location.zoom);
 
     return () => {
       mapRef.current.remove();
+      mapRef.current = null;
     };
-  }, [activeLocation]);
+  }, []);
 
   useEffect(() => {
-    setMarkers(mapRef.current, offers, activeCard);
+    const {city: {location}} = activeLocation;
+    if (mapRef.current) {
+      mapRef.current.flyTo(
+          [location.latitude, location.longitude],
+          location.zoom,
+          {duration: 0.5}
+      );
+
+      offers.map((offer) => {
+        markersRef.current.addLayer(
+            leaflet.marker([offer.location.latitude, offer.location.longitude], {
+              icon: ICON,
+
+            })
+        );
+      });
+    }
+
+    return () => {
+      markersRef.current.clearLayers();
+    };
+  }, [offers, activeLocation.city.name]);
+
+  useEffect(() => {
+    if (activeCard) {
+      const {location} = activeCard;
+
+      activeMarkerRef.current.addLayer(
+          leaflet.marker(
+              [location.latitude, location.longitude],
+              {icon: ACTIVE_POINT_ICON}
+          )
+      );
+    }
+    return () => {
+      activeMarkerRef.current.clearLayers();
+    };
   }, [activeCard]);
 
   return (
@@ -64,7 +95,7 @@ const Map = ({activeLocation, offers, activeCard, mapStyle}) => {
 Map.propTypes = {
   activeLocation: OfferPropTypes,
   offers: PropTypes.arrayOf(OfferPropTypes),
-  activeCard: PropTypes.number,
+  activeCard: OfferPropTypes,
   mapStyle: PropTypes.string
 };
 
