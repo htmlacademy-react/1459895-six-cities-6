@@ -53,11 +53,30 @@ const AuthorizationStatus = {
   NO_AUTH: `NO_AUTH`
 };
 
+const AppRoute = {
+  MAIN: `/`,
+  PROPERTY: `/property`,
+  FAVORITES: `/favorites`,
+  LOGIN: `/login`,
+  OFFER: `/offer`
+};
+
+const APIRoute = {
+  LOGIN: `/login`,
+  OFFERS: `/hotels`,
+  COMMENTS: `/comments`,
+  FAVORITE: `/favorite`,
+  LOGOUT: `/logout`,
+  NEARBY: `/nearby`
+};
+
 export {
   WIDTH_PER_STAR,
   MapStyle,
   Type,
   PLACES_OPTIONS,
   CITIES,
-  AuthorizationStatus
+  AuthorizationStatus,
+  AppRoute,
+  APIRoute
 };

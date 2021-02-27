@@ -6,23 +6,26 @@ import {OfferPropTypes} from "../../../props";
 import FavoriteList from "../../favorite-list/favorite-list";
 import {fetchFavorites} from "../../api/api-actions";
 import Spinner from "../../spinner/spinner";
+import Header from "../../header/header";
+import {AppRoute} from "../../../const";
 
 const Favorites = (props) => {
-  const {offers, onLoadFavorites} = props;
+  const {offers, onLoadFavorites, isFavoritesLoaded} = props;
   const favoriteOffers = offers.filter((offer) => offer.isFavorite);
 
   useEffect(() => {
     onLoadFavorites();
   });
 
-  if (!offers.length) {
+  if (!isFavoritesLoaded) {
     return (
       <Spinner/>
     );
   }
 
   return (
-    <>
+    <div className="page page--gray page--main">
+      <Header/>
       <main className="page__main page__main--favorites">
         <div className="page__favorites-container container">
           <section className="favorites">
@@ -32,22 +35,24 @@ const Favorites = (props) => {
         </div>
       </main>
       <footer className="footer">
-        <Link to="/" className="footer__logo-link">
+        <Link to={`${AppRoute.MAIN}`} className="footer__logo-link">
           <img className="footer__logo" src="img/logo.svg" alt="6 cities logo" width="64" height="33" />
         </Link>
       </footer>
-    </>
+    </div>
   );
 };
 
 Favorites.propTypes = {
   offers: PropTypes.arrayOf(OfferPropTypes),
-  onLoadFavorites: PropTypes.func
+  onLoadFavorites: PropTypes.func,
+  isFavoritesLoaded: PropTypes.bool
 };
 
 const mapStateToProps = (state) => {
   return {
     offers: state.favorites,
+    isFavoritesLoaded: state.isFavoritesLoaded
   };
 };
 

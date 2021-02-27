@@ -8,9 +8,10 @@ import PlacesList from "../../places-list/places-list";
 import {OfferPropTypes} from "../../../props";
 import PlacesSortingForm from "../../places-sorting-form/places-sorting-form";
 import Spinner from "../../spinner/spinner";
+import Header from "../../header/header";
 
 const MainPage = (props) => {
-  const [activeCard, setActiveCard] = useState(0);
+  const [activeCard, setActiveCard] = useState();
 
   const {activeOffers, activeLocation, isDataLoaded} = props;
   const activeOffer = activeOffers.find((offer) => offer.city.name === activeLocation);
@@ -22,7 +23,8 @@ const MainPage = (props) => {
   }
 
   return (
-    <>
+    <div className="page page--gray page--main">
+      <Header/>
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
@@ -46,7 +48,7 @@ const MainPage = (props) => {
           </div>
         </div>
       </main>
-    </>
+    </div>
   );
 };
 

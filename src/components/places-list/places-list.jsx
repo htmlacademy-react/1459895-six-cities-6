@@ -5,7 +5,7 @@ import {Type} from "../../const";
 import {OfferPropTypes} from "../../props";
 
 const PlacesList = (props) => {
-  const {offers, type, onChangeActiveCard} = props;
+  const {offers, type, onChangeActiveCard, onScrollToTop} = props;
 
   const listSettings = Type[type];
 
@@ -13,7 +13,7 @@ const PlacesList = (props) => {
     <div className={`${listSettings.divClass} places__list ${type === `CITIES` ? `tabs__content` : ``}`}>
 
       {
-        offers.length > 0 ? offers.map((item) => <Card cardType={type} offer={item} key={item.id} onChangeActiveCard={onChangeActiveCard}/>) : <p>No places to stay available</p>
+        offers.length > 0 ? offers.map((item) => <Card cardType={type} offer={item} key={item.id} onChangeActiveCard={onChangeActiveCard} onScrollToTop={onScrollToTop}/>) : <p>No places to stay available</p>
       }
 
     </div>
@@ -23,7 +23,8 @@ const PlacesList = (props) => {
 PlacesList.propTypes = {
   offers: PropTypes.arrayOf(OfferPropTypes),
   type: PropTypes.string,
-  onChangeActiveCard: PropTypes.func
+  onChangeActiveCard: PropTypes.func,
+  onScrollToTop: PropTypes.func
 };
 
 export default PlacesList;

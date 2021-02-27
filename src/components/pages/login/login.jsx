@@ -1,20 +1,16 @@
 import React, {useRef} from "react";
-import {useHistory} from "react-router-dom";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {login} from "../../api/api-actions";
 
-
-const Login = () => {
+const Login = ({onSubmit}) => {
   const emailRef = useRef();
   const passwordRef = useRef();
-
-  const history = useHistory();
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
 
-    onsubmit({
+    onSubmit({
       login: emailRef.current.value,
       password: passwordRef.current.value
     });
@@ -23,7 +19,12 @@ const Login = () => {
   return (
     <section className="login">
       <h1 className="login__title">Sign in</h1>
-      <form className="login__form form" onSubmit={handleSubmit} action="#" method="post">
+      <form
+        className="login__form form"
+        onSubmit={handleSubmit}
+        action="#"
+        method="post"
+      >
         <div className="login__input-wrapper form__input-wrapper">
           <label className="visually-hidden">E-mail</label>
           <input
@@ -49,7 +50,6 @@ const Login = () => {
         <button
           className="login__submit form__submit button"
           type="submit"
-          onClick = {() => history.push(`/`)}
         >Sign in</button>
       </form>
     </section>

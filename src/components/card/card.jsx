@@ -4,23 +4,24 @@ import {Link} from "react-router-dom";
 import {getRating} from "../../common";
 import {OfferPropTypes} from "../../props";
 import {Type} from "../../const";
+import {AppRoute} from "../../const";
 
 const Card = (props) => {
 
-  const {offer, onChangeActiveCard, cardType} = props;
+  const {offer, onChangeActiveCard, cardType, onScrollToTop} = props;
   const {isPremium, previewImage, price, title, type, rating, isFavorite, id} = offer;
 
   const cardSettings = Type[cardType];
 
   return (
-    <article className={`${cardSettings.article} place-card`} onMouseOver={() => onChangeActiveCard(offer.id)}>
+    <article className={`${cardSettings.article} place-card`} onMouseOver={() => onChangeActiveCard(offer)}>
       {
         isPremium && <div className="place-card__mark">
           <span>Premium</span>
         </div>
       }
-      <div className={`${cardSettings.img.class}__image-wrapper place-card__image-wrapper`}>
-        <Link to={`/offer/${id}`}>
+      <div className={`${cardSettings.img.class}__image-wrapper place-card__image-wrapper`} onClick={onScrollToTop}>
+        <Link to={`${AppRoute.OFFER}/${id}`}>
           <img className="place-card__image" src={previewImage} width={`${cardSettings.img.width}`} height={`${cardSettings.img.height}`} alt="Place image" />
         </Link>
       </div>
@@ -44,7 +45,7 @@ const Card = (props) => {
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={`/offer/${id}`}>{title}</Link>
+          <Link to={`${AppRoute.OFFER}/${id}`}>{title}</Link>
         </h2>
         <p className="place-card__type">{type}</p>
       </div>
@@ -55,11 +56,13 @@ const Card = (props) => {
 Card.propTypes = {
   offer: OfferPropTypes,
   onChangeActiveCard: PropTypes.func,
-  cardType: PropTypes.string
+  cardType: PropTypes.string,
+  onScrollToTop: PropTypes.func
 };
 
 Card.defaultProps = {
   onChangeActiveCard: () => {},
+  onScrollToTop: () => {}
 };
 
 export default Card;

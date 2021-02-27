@@ -9,12 +9,13 @@ import PropertyReviews from "../../property-reviews/property-reviews";
 import Map from "../../map/map";
 import PlacesList from "../../places-list/places-list";
 import {getRating} from "../../../common";
-import {OfferPropTypes, ReviewsPropTypes, NearbyOffersPropTypes} from "../../../props";
+import {OfferPropTypes, NearbyOffersPropTypes} from "../../../props";
 import {fetchNearbyOffersList, fetchReviews} from "../../api/api-actions";
 import Spinner from "../../spinner/spinner";
+import Header from "../../header/header";
 
 const Property = (props) => {
-  const {offers, reviews, nearbyOffers, onLoadNearbyOffers, onLoadReviews, isNeabyOffersLoaded} = props;
+  const {offers, nearbyOffers, onLoadNearbyOffers, onLoadReviews, isNeabyOffersLoaded} = props;
   const {id} = useParams();
 
   useEffect(() => {
@@ -31,87 +32,93 @@ const Property = (props) => {
   const offer = offers.find((item) => item.id === +id);
   const {images, isPremium, title, rating, isFavorite, type, bedrooms, maxAdults, price, goods, host, description} = offer;
 
-  const imagesArray = images.length > 6 ? images.splice(0, 6) : images;
+  const imagesArray = images.length > 6 ? images.slice(0, 6) : images;
+
+  const handleScrollTop = () => {
+    window.scrollTo(0, 0);
+  };
 
   return (
-    <main className="page__main page__main--property">
-      <section className="property">
-        <div className="property__gallery-container container">
-          <div className="property__gallery">
-            {
-              imagesArray.map((image, i) => <PropertyGallery image={image} key={i}/>)
-            }
+    <div className="page">
+      <Header/>
+      <main className="page__main page__main--property">
+        <section className="property">
+          <div className="property__gallery-container container">
+            <div className="property__gallery">
+              {
+                imagesArray.map((image, i) => <PropertyGallery image={image} key={image + i}/>)
+              }
+            </div>
           </div>
-        </div>
-        <div className="property__container container">
-          <div className="property__wrapper">
-            {
-              isPremium && <div className="property__mark">
-                <span>Premium</span>
+          <div className="property__container container">
+            <div className="property__wrapper">
+              {
+                isPremium && <div className="property__mark">
+                  <span>Premium</span>
+                </div>
+              }
+              <div className="property__name-wrapper">
+                <h1 className="property__name">
+                  {title}
+                </h1>
+                <button className={`property__bookmark-button button ${isFavorite && `property__bookmark-button--active`}`} type="button">
+                  <svg className="property__bookmark-icon" width="31" height="33">
+                    <use xlink="true" href="#icon-bookmark"></use>
+                  </svg>
+                  <span className="visually-hidden">To bookmarks</span>
+                </button>
               </div>
-            }
-            <div className="property__name-wrapper">
-              <h1 className="property__name">
-                {title}
-              </h1>
-              <button className={`property__bookmark-button button ${isFavorite && `property__bookmark-button--active`}`} type="button">
-                <svg className="property__bookmark-icon" width="31" height="33">
-                  <use xlink="true" href="#icon-bookmark"></use>
-                </svg>
-                <span className="visually-hidden">To bookmarks</span>
-              </button>
-            </div>
-            <div className="property__rating rating">
-              <div className="property__stars rating__stars">
-                <span style={getRating(rating)}></span>
-                <span className="visually-hidden">Rating</span>
+              <div className="property__rating rating">
+                <div className="property__stars rating__stars">
+                  <span style={getRating(rating)}></span>
+                  <span className="visually-hidden">Rating</span>
+                </div>
+                <span className="property__rating-value rating__value">{rating}</span>
               </div>
-              <span className="property__rating-value rating__value">{rating}</span>
-            </div>
-            <ul className="property__features">
-              <li className="property__feature property__feature--entire">
-                {type}
-              </li>
-              <li className="property__feature property__feature--bedrooms">
-                {bedrooms} Bedrooms
-              </li>
-              <li className="property__feature property__feature--adults">
-                  Max {maxAdults} adults
-              </li>
-            </ul>
-            <div className="property__price">
-              <b className="property__price-value">&euro;{price}</b>
-              <span className="property__price-text">&nbsp;night</span>
-            </div>
-            <div className="property__inside">
-              <h2 className="property__inside-title">What&apos;s inside</h2>
-              <ul className="property__inside-list">
-                {
-                  goods.map((good, i) => <PropertyInsideItem good={good} key={i}/>)
-                }
+              <ul className="property__features">
+                <li className="property__feature property__feature--entire">
+                  {type}
+                </li>
+                <li className="property__feature property__feature--bedrooms">
+                  {bedrooms} Bedrooms
+                </li>
+                <li className="property__feature property__feature--adults">
+                    Max {maxAdults} adults
+                </li>
               </ul>
+              <div className="property__price">
+                <b className="property__price-value">&euro;{price}</b>
+                <span className="property__price-text">&nbsp;night</span>
+              </div>
+              <div className="property__inside">
+                <h2 className="property__inside-title">What&apos;s inside</h2>
+                <ul className="property__inside-list">
+                  {
+                    goods.map((good, i) => <PropertyInsideItem good={good} key={i}/>)
+                  }
+                </ul>
+              </div>
+              <PropertyHost host={host} description={description}/>
+              <PropertyReviews/>
             </div>
-            <PropertyHost host={host} description={description}/>
-            <PropertyReviews reviews={reviews}/>
           </div>
+          <section className="property__map map">
+            <Map offers={nearbyOffers} activeLocation={offer} activeCard={offer} mapStyle="PROPERTY"/>
+          </section>
+        </section>
+        <div className="container">
+          <section className="near-places places">
+            <h2 className="near-places__title">Other places in the neighbourhood</h2>
+            <PlacesList type="NEARBY" offers={nearbyOffers} onScrollToTop={handleScrollTop}/>
+          </section>
         </div>
-        <section className="property__map map">
-          <Map offers={nearbyOffers} activeLocation={offer} mapStyle="PROPERTY"/>
-        </section>
-      </section>
-      <div className="container">
-        <section className="near-places places">
-          <h2 className="near-places__title">Other places in the neighbourhood</h2>
-          <PlacesList type="NEARBY" offers={nearbyOffers}/>
-        </section>
-      </div>
-    </main>
+      </main>
+    </div>
   );
 };
 
 Property.propTypes = {
   offers: PropTypes.arrayOf(OfferPropTypes),
-  reviews: PropTypes.arrayOf(ReviewsPropTypes),
   nearbyOffers: PropTypes.arrayOf(NearbyOffersPropTypes),
   isNeabyOffersLoaded: PropTypes.bool,
   onLoadNearbyOffers: PropTypes.func,
@@ -123,7 +130,6 @@ const mapStateToProps = (state) => {
     offers: state.offers,
     nearbyOffers: state.nearbyOffers,
     isNeabyOffersLoaded: state.isNeabyOffersLoaded,
-    reviews: state.reviews
   };
 };
 

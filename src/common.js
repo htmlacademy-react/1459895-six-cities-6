@@ -6,21 +6,18 @@ const getRating = (item) => {
 };
 
 const adaptToClient = (data) => {
-  const adaptedData = Object.assign(
-      {},
-      data,
-      {
-        previewImage: data.preview_image,
-        isPremium: data.is_premium,
-        isFavorite: data.is_favorite,
-        maxAdults: data.max_adults,
-        host: {
-          ...data.host,
-          avatarUrl: data.host.avatar_url,
-          isPro: data.host.is_pro,
-        }
-      }
-  );
+  const adaptedData = {
+    ...data,
+    previewImage: data.preview_image,
+    isPremium: data.is_premium,
+    isFavorite: data.is_favorite,
+    maxAdults: data.max_adults,
+    host: {
+      ...data.host,
+      avatarUrl: data.host.avatar_url,
+      isPro: data.host.is_pro,
+    }
+  };
 
   delete adaptedData.preview_image;
   delete adaptedData.is_premium;
@@ -33,17 +30,13 @@ const adaptToClient = (data) => {
 };
 
 const adaptReviewsToClient = (data) => {
-  const adaptedData = Object.assign(
-      {},
-      data,
-      {
-        user: {
-          ...data.user,
-          avatarUrl: data.user.avatar_url,
-          isPro: data.user.is_pro,
-        }
-      }
-  );
+  const adaptedData = {...data,
+    user: {
+      ...data.user,
+      avatarUrl: data.user.avatar_url,
+      isPro: data.user.is_pro,
+    }
+  };
 
   delete adaptedData.user.avatar_url;
   delete adaptedData.user.is_pro;
@@ -52,9 +45,24 @@ const adaptReviewsToClient = (data) => {
   return adaptedData;
 };
 
+const adaptAuthInfoToClient = (data) => {
+  const adaptedData = {
+    ...data,
+    avatarUrl: data.avatar_url,
+    isPro: data.is_pro,
+  };
+
+  delete adaptedData.data.avatar_url;
+  delete adaptedData.data.is_pro;
+
+
+  return adaptedData;
+};
+
 export {
   getRating,
   adaptToClient,
-  adaptReviewsToClient
+  adaptReviewsToClient,
+  adaptAuthInfoToClient
 };
 
