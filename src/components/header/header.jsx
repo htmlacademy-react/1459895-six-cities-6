@@ -7,13 +7,7 @@ import {logout} from "../api/api-actions";
 import {AppRoute} from "../../const";
 import {UserInfoPropTypes} from "../../props";
 
-const LogoutStyles = {
-  border: `none`,
-  marginLeft: `5px`,
-  backgroundColor: `transparent`,
-  textTransform: `uppercase`,
-  outline: `none`
-};
+import "./header.css";
 
 const Header = ({onLogout, onChangeLoaded, userInfo}) => {
 
@@ -22,7 +16,7 @@ const Header = ({onLogout, onChangeLoaded, userInfo}) => {
       <div className="container">
         <div className="header__wrapper">
           <div className="header__left">
-            <Link to={`${AppRoute.MAIN}`} className="header__logo-link header__logo-link--active" onClick={onChangeLoaded}>
+            <Link to={`${AppRoute.MAIN}`} className="header__logo-link header__logo-link--active" onClick={() => onChangeLoaded(false)}>
               <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41"/>
             </Link>
           </div>
@@ -42,8 +36,7 @@ const Header = ({onLogout, onChangeLoaded, userInfo}) => {
                 <li className="header__nav-item user">
                   <button
                     onClick={() => onLogout()}
-                    style={LogoutStyles}
-                    className="header__nav-link header__nav-link--profile"
+                    className="header__nav-link header__nav-link--profile header__nav-link--logout"
                   >
                     <span className="header__user-name user__name">Logout</span>
                   </button>
@@ -67,8 +60,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onChangeLoaded() {
-    dispatch(ActionCreator.setIsNearbyOffersLoaded());
+  onChangeLoaded(bool) {
+    dispatch(ActionCreator.setIsLoaded(bool));
   },
   onLogout() {
     dispatch(logout());

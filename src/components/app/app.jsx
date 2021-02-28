@@ -28,7 +28,7 @@ const App = () => {
         <Route path={`${AppRoute.OFFER}/:id`} exact>
           <Property/>
         </Route>
-        <Route>
+        <Route path={`${AppRoute.NOT_FOUND}`} exact>
           <NotFound/>
         </Route>
       </Switch>

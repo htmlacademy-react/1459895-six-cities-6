@@ -1,23 +1,18 @@
 import React from "react";
-import {Link} from "react-router-dom";
-import {AppRoute} from "../../../const";
+import Header from "../../header/header";
 
-const LinkStyle = {
-  display: `flex`,
-  justifyContent: `center`,
-  padding: `10px`,
-  border: `1px solid black`,
-  borderRadius: `10px`
-};
+import "./not-found.css";
 
 const NotFound = () => {
 
   return (
-    <div style={{margin: `0 auto`}}>
-      <h1>404 Not Found</h1>
-      <Link to={`${AppRoute.MAIN}`} style={LinkStyle}>
-        Back to main page
-      </Link>
+    <div className="page">
+      <Header/>
+      <main className="page__main">
+        <div className="container">
+          <h1 className="not-found">404 Not Found</h1>
+        </div>
+      </main>
     </div>
   );
 };
