@@ -4,9 +4,8 @@ import PropertyForm from "../property-form/property-form";
 import {ReviewsPropTypes, UserInfoPropTypes} from "../../props";
 import PropertyReviewItem from "../property-review-item/property-review-item";
 import {connect} from "react-redux";
-import {getActiveReviews} from "../store/selectors";
 
-const PropertyReviews = ({reviews, authInfo}) => {
+const PropertyReviews = ({reviews, authInfo, id}) => {
 
   return (
     <section className="property__reviews reviews">
@@ -17,7 +16,7 @@ const PropertyReviews = ({reviews, authInfo}) => {
         }
       </ul>
       {
-        authInfo && <PropertyForm/>
+        authInfo && <PropertyForm id={id}/>
       }
     </section>
   );
@@ -25,12 +24,12 @@ const PropertyReviews = ({reviews, authInfo}) => {
 
 PropertyReviews.propTypes = {
   reviews: PropTypes.arrayOf(ReviewsPropTypes),
-  authInfo: UserInfoPropTypes
+  authInfo: UserInfoPropTypes,
+  id: PropTypes.string
 };
 
 const mapStateToProps = (state) => ({
   authInfo: state.authInfo,
-  reviews: getActiveReviews(state)
 });
 
 export default connect(mapStateToProps)(PropertyReviews);

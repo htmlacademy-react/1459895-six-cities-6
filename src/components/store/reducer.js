@@ -5,12 +5,14 @@ const initialState = {
   offers: [],
   option: `Popular`,
   authInfo: null,
+  offer: {},
   isDataLoaded: false,
-  isNeabyOffersLoaded: false,
+  isLoaded: false,
   nearbyOffers: [],
   reviews: [],
   favorites: [],
-  isFavoritesLoaded: false,
+  isDisabled: false,
+  isError: false
 };
 
 const reducer = (state = initialState, action) => {
@@ -40,12 +42,6 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         nearbyOffers: action.payload,
-        isNeabyOffersLoaded: true
-      };
-    case ActionType.SET_IS_NEARBY_OFFERS_LOADED:
-      return {
-        ...state,
-        isNeabyOffersLoaded: false
       };
     case ActionType.SET_REVIEWS:
       return {
@@ -55,8 +51,28 @@ const reducer = (state = initialState, action) => {
     case ActionType.SET_FAVORITES:
       return {
         ...state,
-        favorites: action.payload,
-        isFavoritesLoaded: true
+        favorites: action.payload
+      };
+    case ActionType.SET_OFFER:
+      return {
+        ...state,
+        offer: action.payload,
+        isDataLoaded: true
+      };
+    case ActionType.SET_IS_LOADED:
+      return {
+        ...state,
+        isLoaded: action.payload
+      };
+    case ActionType.SET_DISABLED:
+      return {
+        ...state,
+        isDisabled: action.payload
+      };
+    case ActionType.SET_IS_ERROR:
+      return {
+        ...state,
+        isError: action.payload
       };
     default:
       return state;

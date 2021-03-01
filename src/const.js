@@ -58,7 +58,8 @@ const AppRoute = {
   PROPERTY: `/property`,
   FAVORITES: `/favorites`,
   LOGIN: `/login`,
-  OFFER: `/offer`
+  OFFER: `/offer`,
+  NOT_FOUND: `/not-found`
 };
 
 const APIRoute = {
@@ -70,6 +71,13 @@ const APIRoute = {
   NEARBY: `/nearby`
 };
 
+const CommentLength = {
+  MIN: 50,
+  MAX: 300
+};
+
+const stars = [5, 4, 3, 2, 1];
+
 export {
   WIDTH_PER_STAR,
   MapStyle,
@@ -78,5 +86,7 @@ export {
   CITIES,
   AuthorizationStatus,
   AppRoute,
-  APIRoute
+  APIRoute,
+  CommentLength,
+  stars
 };

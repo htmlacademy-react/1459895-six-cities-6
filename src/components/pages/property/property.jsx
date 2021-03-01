@@ -10,26 +10,26 @@ import Map from "../../map/map";
 import PlacesList from "../../places-list/places-list";
 import {getRating} from "../../../common";
 import {OfferPropTypes, NearbyOffersPropTypes} from "../../../props";
-import {fetchNearbyOffersList, fetchReviews} from "../../api/api-actions";
+import {fetchPropertyData} from "../../api/api-actions";
 import Spinner from "../../spinner/spinner";
 import Header from "../../header/header";
+import {getActiveReviews} from "../../store/selectors";
+import {ReviewsPropTypes} from "../../../props";
 
 const Property = (props) => {
-  const {offers, nearbyOffers, onLoadNearbyOffers, onLoadReviews, isNeabyOffersLoaded} = props;
+  const {offer, reviews, loadData, nearbyOffers, isLoaded} = props;
   const {id} = useParams();
 
   useEffect(() => {
-    onLoadNearbyOffers(id);
-    onLoadReviews(id);
+    loadData(id);
   }, [id]);
 
-  if (!offers.length && !isNeabyOffersLoaded) {
+  if (!isLoaded) {
     return (
       <Spinner/>
     );
   }
 
-  const offer = offers.find((item) => item.id === +id);
   const {images, isPremium, title, rating, isFavorite, type, bedrooms, maxAdults, price, goods, host, description} = offer;
 
   const imagesArray = images.length > 6 ? images.slice(0, 6) : images;
@@ -99,7 +99,7 @@ const Property = (props) => {
                 </ul>
               </div>
               <PropertyHost host={host} description={description}/>
-              <PropertyReviews/>
+              <PropertyReviews reviews={reviews} id={id}/>
             </div>
           </div>
           <section className="property__map map">
@@ -118,27 +118,25 @@ const Property = (props) => {
 };
 
 Property.propTypes = {
-  offers: PropTypes.arrayOf(OfferPropTypes),
+  offer: OfferPropTypes,
+  reviews: PropTypes.arrayOf(ReviewsPropTypes),
   nearbyOffers: PropTypes.arrayOf(NearbyOffersPropTypes),
-  isNeabyOffersLoaded: PropTypes.bool,
-  onLoadNearbyOffers: PropTypes.func,
-  onLoadReviews: PropTypes.func
+  loadData: PropTypes.func,
+  isLoaded: PropTypes.bool
 };
 
 const mapStateToProps = (state) => {
   return {
-    offers: state.offers,
+    offer: state.offer,
     nearbyOffers: state.nearbyOffers,
-    isNeabyOffersLoaded: state.isNeabyOffersLoaded,
+    reviews: getActiveReviews(state),
+    isLoaded: state.isLoaded
   };
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  onLoadNearbyOffers(id) {
-    dispatch(fetchNearbyOffersList(id));
-  },
-  onLoadReviews(id) {
-    dispatch(fetchReviews(id));
+  loadData(id) {
+    dispatch(fetchPropertyData(id));
   }
 });
 

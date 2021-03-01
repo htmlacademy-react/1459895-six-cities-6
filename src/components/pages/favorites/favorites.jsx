@@ -5,32 +5,27 @@ import {connect} from "react-redux";
 import {OfferPropTypes} from "../../../props";
 import FavoriteList from "../../favorite-list/favorite-list";
 import {fetchFavorites} from "../../api/api-actions";
-import Spinner from "../../spinner/spinner";
 import Header from "../../header/header";
 import {AppRoute} from "../../../const";
+import {UserInfoPropTypes} from "../../../props";
 
 const Favorites = (props) => {
-  const {offers, onLoadFavorites, isFavoritesLoaded} = props;
-  const favoriteOffers = offers.filter((offer) => offer.isFavorite);
+  const {offers, onLoadFavorites, userInfo} = props;
 
   useEffect(() => {
-    onLoadFavorites();
-  });
-
-  if (!isFavoritesLoaded) {
-    return (
-      <Spinner/>
-    );
-  }
+    if (userInfo) {
+      onLoadFavorites();
+    }
+  }, [userInfo]);
 
   return (
-    <div className="page page--gray page--main">
+    <div className="page">
       <Header/>
       <main className="page__main page__main--favorites">
         <div className="page__favorites-container container">
           <section className="favorites">
-            <h1 className="favorites__title">{favoriteOffers.length && `Saved listing` || `Nothing yet saved`}</h1>
-            <FavoriteList offers={favoriteOffers} type="FAVORITE"/>
+            <h1 className="favorites__title">{offers.length && `Saved listing` || `Nothing yet saved`}</h1>
+            <FavoriteList offers={offers} type="FAVORITE"/>
           </section>
         </div>
       </main>
@@ -46,13 +41,13 @@ const Favorites = (props) => {
 Favorites.propTypes = {
   offers: PropTypes.arrayOf(OfferPropTypes),
   onLoadFavorites: PropTypes.func,
-  isFavoritesLoaded: PropTypes.bool
+  userInfo: UserInfoPropTypes
 };
 
 const mapStateToProps = (state) => {
   return {
     offers: state.favorites,
-    isFavoritesLoaded: state.isFavoritesLoaded
+    userInfo: state.authInfo
   };
 };
 

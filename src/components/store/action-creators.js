@@ -5,7 +5,10 @@ export const setOption = (option) => ({type: ActionType.SET_OPTION, payload: opt
 export const setAuthorization = (data) => ({type: ActionType.SET_AUTHORIZATION, payload: data});
 export const setOffers = (data) => ({type: ActionType.SET_OFFERS, payload: data});
 export const setNearbyOffers = (data) => ({type: ActionType.SET_NEABY_OFFERS, payload: data});
-export const setIsNearbyOffersLoaded = () => ({type: ActionType.SET_IS_NEARBY_OFFERS_LOADED});
 export const setReviews = (data) => ({type: ActionType.SET_REVIEWS, payload: data});
 export const setFavorite = (data) => ({type: ActionType.SET_FAVORITES, payload: data});
 export const redirectToRoute = (url) => ({type: ActionType.REDIRECT_TO_ROUTE, payload: url});
+export const setOffer = (data) => ({type: ActionType.SET_OFFER, payload: data});
+export const setIsLoaded = (bool) => ({type: ActionType.SET_IS_LOADED, payload: bool});
+export const setDisabled = (bool) => ({type: ActionType.SET_DISABLED, payload: bool});
+export const setIsError = (bool) => ({type: ActionType.SET_IS_ERROR, payload: bool});
