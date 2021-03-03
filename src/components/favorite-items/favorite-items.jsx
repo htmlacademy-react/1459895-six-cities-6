@@ -2,9 +2,16 @@ import React from "react";
 import PropTypes from "prop-types";
 import PlacesList from "../places-list/places-list";
 import {OfferPropTypes} from "../../props";
+import {useDispatch} from "react-redux";
+import {updateFavorites} from "../store/api/api-actions";
 
 const FavoriteItems = (props) => {
+  const dispatch = useDispatch();
   const {city, offers, type} = props;
+
+  const handleFavorite = (id, status) => {
+    dispatch(updateFavorites(id, status));
+  };
 
   return (
     <li className="favorites__locations-items">
@@ -15,7 +22,7 @@ const FavoriteItems = (props) => {
           </a>
         </div>
       </div>
-      <PlacesList offers={offers} type={type}/>
+      <PlacesList offers={offers} type={type} onFavoriteClick={handleFavorite}/>
     </li>
   );
 };

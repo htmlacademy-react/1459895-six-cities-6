@@ -1,17 +1,18 @@
 import React from "react";
 import PropTypes from "prop-types";
-import * as ActionCreator from "../store/action-creators";
-import {connect} from "react-redux";
+import {setCity} from "../store/action-creators";
+import {useDispatch, useSelector} from "react-redux";
 
-const LocationItems = (props) => {
-  const {city, activeLocation, onChangeLocation} = props;
+const LocationItems = ({city}) => {
+  const dispatch = useDispatch();
+  const {activeLocation} = useSelector((state) => state.MAIN);
 
   return (
     <li className="locations__item">
       <a
         className={`locations__item-link tabs__item ${city === activeLocation && `tabs__item--active`}`}
         href="#"
-        onClick={() => onChangeLocation(city)}>
+        onClick={() => dispatch(setCity(city))}>
         <span>{city}</span>
       </a>
     </li>
@@ -19,21 +20,7 @@ const LocationItems = (props) => {
 };
 
 LocationItems.propTypes = {
-  city: PropTypes.string,
-  activeLocation: PropTypes.string,
-  onChangeLocation: PropTypes.func
+  city: PropTypes.string
 };
 
-const mapStateToProps = (state) => {
-  return {
-    activeLocation: state.city,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => ({
-  onChangeLocation(city) {
-    dispatch(ActionCreator.setCity(city));
-  }
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(LocationItems);
+export default LocationItems;

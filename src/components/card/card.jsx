@@ -1,14 +1,16 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
+import {useSelector} from "react-redux";
 import {getRating} from "../../common";
 import {OfferPropTypes} from "../../props";
 import {Type} from "../../const";
 import {AppRoute} from "../../const";
 
 const Card = (props) => {
-
-  const {offer, onChangeActiveCard, cardType, onScrollToTop} = props;
+  const {authInfo} = useSelector((state) => state.USER);
+  const history = useHistory();
+  const {offer, onChangeActiveCard, cardType, onScrollToTop, onFavoriteClick} = props;
   const {isPremium, previewImage, price, title, type, rating, isFavorite, id} = offer;
 
   const cardSettings = Type[cardType];
@@ -31,7 +33,11 @@ const Card = (props) => {
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className={`place-card__bookmark-button button ${isFavorite && `place-card__bookmark-button--active`}`} type="button">
+          <button
+            className={`place-card__bookmark-button button ${isFavorite && `place-card__bookmark-button--active`}`}
+            type="button"
+            onClick={() => authInfo && onFavoriteClick(id, !isFavorite) || history.push(`${AppRoute.LOGIN}`)}
+          >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlink="true" href="#icon-bookmark"></use>
             </svg>
@@ -57,7 +63,8 @@ Card.propTypes = {
   offer: OfferPropTypes,
   onChangeActiveCard: PropTypes.func,
   cardType: PropTypes.string,
-  onScrollToTop: PropTypes.func
+  onScrollToTop: PropTypes.func,
+  onFavoriteClick: PropTypes.func
 };
 
 Card.defaultProps = {

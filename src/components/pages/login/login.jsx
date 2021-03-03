@@ -1,19 +1,26 @@
 import React, {useRef} from "react";
-import PropTypes from "prop-types";
-import {connect} from "react-redux";
-import {login} from "../../api/api-actions";
+import {useDispatch, useSelector} from "react-redux";
+import {login} from "../../store/api/api-actions";
+import {Redirect} from "react-router-dom";
+import {AppRoute} from "../../../const.js";
 
-const Login = ({onSubmit}) => {
+const Login = () => {
   const emailRef = useRef();
   const passwordRef = useRef();
 
+  const dispatch = useDispatch();
+  const {authInfo} = useSelector((state) => state.USER);
+
+  if (authInfo) {
+    return <Redirect to={`${AppRoute.MAIN}`}/>;
+  }
+
   const handleSubmit = (evt) => {
     evt.preventDefault();
-
-    onSubmit({
+    dispatch(login({
       login: emailRef.current.value,
       password: passwordRef.current.value
-    });
+    }));
   };
 
   return (
@@ -56,15 +63,4 @@ const Login = ({onSubmit}) => {
   );
 };
 
-Login.propTypes = {
-  onSubmit: PropTypes.func,
-};
-
-const mapDispatchToProps = (dispatch) => ({
-  onSubmit(authData) {
-    dispatch(login(authData));
-  }
-});
-
-export {Login};
-export default connect(null, mapDispatchToProps)(Login);
+export default Login;

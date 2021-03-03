@@ -1,9 +1,9 @@
 import {createSelector} from "reselect";
+import {NameSpace} from '../reducer';
 
-const getCity = (state) => state.city;
-const getOffers = (state) => state.offers;
-const getOption = (state) => state.option;
-const getReviews = (state) => state.reviews;
+export const getCity = (state) => state[NameSpace.MAIN].activeLocation;
+export const getOffers = (state) => state[NameSpace.MAIN].offers;
+export const getOption = (state) => state[NameSpace.MAIN].option;
 
 export const getActiveOffers = createSelector(
     [getCity, getOffers, getOption],
@@ -20,14 +20,5 @@ export const getActiveOffers = createSelector(
         default:
           return activeOffers;
       }
-    }
-);
-
-export const getActiveReviews = createSelector(
-    [getReviews],
-    (reviews) => {
-      const activeReviews = reviews.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-      return activeReviews.length > 10 ? activeReviews.slice(0, 10) : activeReviews;
     }
 );

@@ -1,28 +1,32 @@
 import React, {useEffect} from "react";
-import PropTypes from "prop-types";
-import {useParams} from "react-router-dom";
-import {connect} from "react-redux";
+import {useParams, useHistory} from "react-router-dom";
+import {useSelector, useDispatch} from "react-redux";
+import Spinner from "../../spinner/spinner";
+import Header from "../../header/header";
 import PropertyGallery from "../../property-gallery/property-gallery";
-import PropertyInsideItem from "../../property-inside-item/property-inside-item";
+import PropertyInside from "../../property-inside/property-inside";
 import PropertyHost from "../../property-host/property-host";
 import PropertyReviews from "../../property-reviews/property-reviews";
+import PropertyFeatures from "../../property-features/property-features";
 import Map from "../../map/map";
 import PlacesList from "../../places-list/places-list";
 import {getRating} from "../../../common";
-import {OfferPropTypes, NearbyOffersPropTypes} from "../../../props";
-import {fetchPropertyData} from "../../api/api-actions";
-import Spinner from "../../spinner/spinner";
-import Header from "../../header/header";
-import {getActiveReviews} from "../../store/selectors";
-import {ReviewsPropTypes} from "../../../props";
+import {fetchPropertyData, updateOffer, updateNearbyOffers} from "../../store/api/api-actions";
+import {getActiveReviews} from "../../store/property-data/selectors";
+import {AppRoute} from "../../../const";
 
-const Property = (props) => {
-  const {offer, reviews, loadData, nearbyOffers, isLoaded} = props;
+const Property = () => {
   const {id} = useParams();
+  const dispatch = useDispatch();
+  const history = useHistory();
 
   useEffect(() => {
-    loadData(id);
+    dispatch(fetchPropertyData(id));
   }, [id]);
+
+  const {offer, nearbyOffers, isLoaded} = useSelector((state) => state.PROPERTY);
+  const {authInfo} = useSelector((state) => state.USER);
+  const reviews = useSelector(getActiveReviews);
 
   if (!isLoaded) {
     return (
@@ -32,10 +36,12 @@ const Property = (props) => {
 
   const {images, isPremium, title, rating, isFavorite, type, bedrooms, maxAdults, price, goods, host, description} = offer;
 
-  const imagesArray = images.length > 6 ? images.slice(0, 6) : images;
-
   const handleScrollTop = () => {
     window.scrollTo(0, 0);
+  };
+
+  const handleFavorite = (offerId, status) => {
+    dispatch(updateNearbyOffers(offerId, status));
   };
 
   return (
@@ -43,13 +49,7 @@ const Property = (props) => {
       <Header/>
       <main className="page__main page__main--property">
         <section className="property">
-          <div className="property__gallery-container container">
-            <div className="property__gallery">
-              {
-                imagesArray.map((image, i) => <PropertyGallery image={image} key={image + i}/>)
-              }
-            </div>
-          </div>
+          <PropertyGallery images={images}/>
           <div className="property__container container">
             <div className="property__wrapper">
               {
@@ -61,7 +61,11 @@ const Property = (props) => {
                 <h1 className="property__name">
                   {title}
                 </h1>
-                <button className={`property__bookmark-button button ${isFavorite && `property__bookmark-button--active`}`} type="button">
+                <button
+                  className={`property__bookmark-button button ${isFavorite && `property__bookmark-button--active`}`}
+                  type="button"
+                  onClick={() => authInfo && dispatch(updateOffer(id, !isFavorite)) || history.push(`${AppRoute.LOGIN}`)}
+                >
                   <svg className="property__bookmark-icon" width="31" height="33">
                     <use xlink="true" href="#icon-bookmark"></use>
                   </svg>
@@ -75,31 +79,14 @@ const Property = (props) => {
                 </div>
                 <span className="property__rating-value rating__value">{rating}</span>
               </div>
-              <ul className="property__features">
-                <li className="property__feature property__feature--entire">
-                  {type}
-                </li>
-                <li className="property__feature property__feature--bedrooms">
-                  {bedrooms} Bedrooms
-                </li>
-                <li className="property__feature property__feature--adults">
-                    Max {maxAdults} adults
-                </li>
-              </ul>
+              <PropertyFeatures type={type} bedrooms={bedrooms} maxAdults={maxAdults}/>
               <div className="property__price">
                 <b className="property__price-value">&euro;{price}</b>
                 <span className="property__price-text">&nbsp;night</span>
               </div>
-              <div className="property__inside">
-                <h2 className="property__inside-title">What&apos;s inside</h2>
-                <ul className="property__inside-list">
-                  {
-                    goods.map((good, i) => <PropertyInsideItem good={good} key={i}/>)
-                  }
-                </ul>
-              </div>
+              <PropertyInside goods={goods}/>
               <PropertyHost host={host} description={description}/>
-              <PropertyReviews reviews={reviews} id={id}/>
+              <PropertyReviews reviews={reviews}/>
             </div>
           </div>
           <section className="property__map map">
@@ -109,7 +96,7 @@ const Property = (props) => {
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <PlacesList type="NEARBY" offers={nearbyOffers} onScrollToTop={handleScrollTop}/>
+            <PlacesList type="NEARBY" offers={nearbyOffers} onScrollToTop={handleScrollTop} onFavoriteClick={handleFavorite}/>
           </section>
         </div>
       </main>
@@ -117,28 +104,4 @@ const Property = (props) => {
   );
 };
 
-Property.propTypes = {
-  offer: OfferPropTypes,
-  reviews: PropTypes.arrayOf(ReviewsPropTypes),
-  nearbyOffers: PropTypes.arrayOf(NearbyOffersPropTypes),
-  loadData: PropTypes.func,
-  isLoaded: PropTypes.bool
-};
-
-const mapStateToProps = (state) => {
-  return {
-    offer: state.offer,
-    nearbyOffers: state.nearbyOffers,
-    reviews: getActiveReviews(state),
-    isLoaded: state.isLoaded
-  };
-};
-
-const mapDispatchToProps = (dispatch) => ({
-  loadData(id) {
-    dispatch(fetchPropertyData(id));
-  }
-});
-
-export {Property};
-export default connect(mapStateToProps, mapDispatchToProps)(Property);
+export default Property;
