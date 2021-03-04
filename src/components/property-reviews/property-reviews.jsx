@@ -1,11 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
 import PropertyForm from "../property-form/property-form";
-import {ReviewsPropTypes, UserInfoPropTypes} from "../../props";
+import {ReviewsPropTypes} from "../../props";
 import PropertyReviewItem from "../property-review-item/property-review-item";
-import {connect} from "react-redux";
+import {useSelector} from "react-redux";
 
-const PropertyReviews = ({reviews, authInfo, id}) => {
+const PropertyReviews = ({reviews}) => {
+
+  const {authInfo} = useSelector((state) => state.USER);
 
   return (
     <section className="property__reviews reviews">
@@ -16,7 +18,7 @@ const PropertyReviews = ({reviews, authInfo, id}) => {
         }
       </ul>
       {
-        authInfo && <PropertyForm id={id}/>
+        authInfo && <PropertyForm/>
       }
     </section>
   );
@@ -24,12 +26,7 @@ const PropertyReviews = ({reviews, authInfo, id}) => {
 
 PropertyReviews.propTypes = {
   reviews: PropTypes.arrayOf(ReviewsPropTypes),
-  authInfo: UserInfoPropTypes,
   id: PropTypes.string
 };
 
-const mapStateToProps = (state) => ({
-  authInfo: state.authInfo,
-});
-
-export default connect(mapStateToProps)(PropertyReviews);
+export default PropertyReviews;

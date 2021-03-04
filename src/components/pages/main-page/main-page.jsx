@@ -1,20 +1,25 @@
 import React, {useState} from "react";
-import PropTypes from "prop-types";
-import {connect} from "react-redux";
-import {getActiveOffers} from "../../store/selectors";
+import {useSelector, useDispatch} from "react-redux";
+import {getActiveOffers} from "../../store/main-data/selectors";
 import LocationList from "../../location-list/location-list";
 import Map from "../../map/map";
 import PlacesList from "../../places-list/places-list";
-import {OfferPropTypes} from "../../../props";
 import PlacesSortingForm from "../../places-sorting-form/places-sorting-form";
 import Spinner from "../../spinner/spinner";
 import Header from "../../header/header";
+import {updateOffers} from "../../store/api/api-actions";
 
-const MainPage = (props) => {
+const MainPage = () => {
+  const dispatch = useDispatch();
   const [activeCard, setActiveCard] = useState();
 
-  const {activeOffers, activeLocation, isDataLoaded} = props;
-  const activeOffer = activeOffers.find((offer) => offer.city.name === activeLocation);
+  const {activeLocation, isDataLoaded} = useSelector((state) => state.MAIN);
+  const offers = useSelector(getActiveOffers);
+  const activeOffer = offers.find((offer) => offer.city.name === activeLocation);
+
+  const handleFavorite = (id, status) => {
+    dispatch(updateOffers(id, status));
+  };
 
   if (!isDataLoaded) {
     return (
@@ -34,14 +39,14 @@ const MainPage = (props) => {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{activeOffers.length} places to stay in {activeLocation}</b>
+              <b className="places__found">{offers.length} places to stay in {activeLocation}</b>
               <PlacesSortingForm/>
-              <PlacesList type="CITIES" offers={activeOffers} onChangeActiveCard={setActiveCard}/>
+              <PlacesList type="CITIES" offers={offers} onChangeActiveCard={setActiveCard} onFavoriteClick={handleFavorite}/>
             </section>
             <div className="cities__right-section">
               <section className="cities__map map">
                 {
-                  activeOffers.length && <Map offers={activeOffers} activeLocation={activeOffer} activeCard={activeCard} mapStyle="MAIN"/>
+                  offers.length && <Map offers={offers} activeLocation={activeOffer} activeCard={activeCard} mapStyle="MAIN"/>
                 }
               </section>
             </div>
@@ -52,20 +57,4 @@ const MainPage = (props) => {
   );
 };
 
-MainPage.propTypes = {
-  activeOffers: PropTypes.arrayOf(OfferPropTypes),
-  activeLocation: PropTypes.string,
-  onChangeLocation: PropTypes.func,
-  isDataLoaded: PropTypes.bool,
-};
-
-const mapStateToProps = (state) => {
-  return {
-    activeLocation: state.city,
-    activeOffers: getActiveOffers(state),
-    isDataLoaded: state.isDataLoaded
-  };
-};
-
-export {MainPage};
-export default connect(mapStateToProps)(MainPage);
+export default MainPage;

@@ -1,22 +1,24 @@
 import React, {useState, useEffect} from "react";
-import {connect} from "react-redux";
-import PropTypes from "prop-types";
-import {updateComments} from "../api/api-actions";
+import {useSelector, useDispatch} from "react-redux";
+import {useParams} from "react-router-dom";
+import {updateComments} from "../store/api/api-actions";
 import {CommentLength} from "../../const";
 import {stars} from "../../const";
 import Error from "../error/error";
-import * as ActionCreator from "../store/action-creators";
+import {setIsError} from "../store/action-creators";
 
-const PropertyForm = ({onSubmit, id, isDisabled, isError, onError}) => {
+const PropertyForm = () => {
+  const {id} = useParams();
   const [data, setData] = useState({
     review: ``,
     rating: ``
   });
+  const dispatch = useDispatch();
+  const {isDisabled, isError} = useSelector((state) => state.PROPERTY);
 
   useEffect(() => {
     if (!isDisabled && !isError) {
-      setData((prevState) => ({
-        ...prevState,
+      setData(() => ({
         review: ``,
         rating: ``
       }));
@@ -25,18 +27,17 @@ const PropertyForm = ({onSubmit, id, isDisabled, isError, onError}) => {
 
   useEffect(() => {
     if (isError) {
-      setTimeout(() => onError(false), 3000);
+      setTimeout(() => dispatch(setIsError(false)), 3000);
     }
   }, [isError]);
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
 
-    onSubmit({
+    dispatch(updateComments({
       comment: data.review,
       rating: data.rating
-    }, id);
-
+    }, id));
   };
 
   const handleFieldChange = (evt) => {
@@ -95,7 +96,7 @@ const PropertyForm = ({onSubmit, id, isDisabled, isError, onError}) => {
         maxLength={CommentLength.MAX}
         disabled={isDisabled}
         value={data.review}
-      ></textarea>
+      />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
                       To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
@@ -110,27 +111,4 @@ const PropertyForm = ({onSubmit, id, isDisabled, isError, onError}) => {
   );
 };
 
-PropertyForm.propTypes = {
-  onSubmit: PropTypes.func,
-  id: PropTypes.string,
-  isDisabled: PropTypes.bool,
-  isError: PropTypes.bool,
-  onError: PropTypes.func
-};
-
-const mapStateToProps = (state) => ({
-  isDisabled: state.isDisabled,
-  isError: state.isError
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  onSubmit(data, id) {
-    dispatch(updateComments(data, id));
-  },
-  onError(bool) {
-    dispatch(ActionCreator.setIsError(bool));
-  }
-});
-
-export {PropertyForm};
-export default connect(mapStateToProps, mapDispatchToProps)(PropertyForm);
+export default PropertyForm;

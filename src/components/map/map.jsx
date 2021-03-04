@@ -87,7 +87,7 @@ const Map = ({activeLocation, offers, activeCard, mapStyle}) => {
   }, [activeCard]);
 
   return (
-    <div id="map" ref={mapRef} style={MapStyle[mapStyle]}></div>
+    <div id="map" style={MapStyle[mapStyle]}></div>
   );
 
 };

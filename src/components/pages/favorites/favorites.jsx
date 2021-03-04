@@ -1,22 +1,22 @@
 import React, {useEffect} from "react";
 import {Link} from "react-router-dom";
-import PropTypes from "prop-types";
-import {connect} from "react-redux";
-import {OfferPropTypes} from "../../../props";
+import {useSelector, useDispatch} from "react-redux";
 import FavoriteList from "../../favorite-list/favorite-list";
-import {fetchFavorites} from "../../api/api-actions";
+import {fetchFavorites} from "../../store/api/api-actions";
 import Header from "../../header/header";
 import {AppRoute} from "../../../const";
-import {UserInfoPropTypes} from "../../../props";
 
-const Favorites = (props) => {
-  const {offers, onLoadFavorites, userInfo} = props;
+const Favorites = () => {
+  const dispatch = useDispatch();
+  const {authInfo} = useSelector((state) => state.USER);
 
   useEffect(() => {
-    if (userInfo) {
-      onLoadFavorites();
+    if (authInfo) {
+      dispatch(fetchFavorites());
     }
-  }, [userInfo]);
+  }, [authInfo]);
+
+  const {favorites} = useSelector((state) => state.FAVORITE);
 
   return (
     <div className="page">
@@ -24,8 +24,8 @@ const Favorites = (props) => {
       <main className="page__main page__main--favorites">
         <div className="page__favorites-container container">
           <section className="favorites">
-            <h1 className="favorites__title">{offers.length && `Saved listing` || `Nothing yet saved`}</h1>
-            <FavoriteList offers={offers} type="FAVORITE"/>
+            <h1 className="favorites__title">{favorites.length && `Saved listing` || `Nothing yet saved`}</h1>
+            <FavoriteList offers={favorites} type="FAVORITE"/>
           </section>
         </div>
       </main>
@@ -38,24 +38,4 @@ const Favorites = (props) => {
   );
 };
 
-Favorites.propTypes = {
-  offers: PropTypes.arrayOf(OfferPropTypes),
-  onLoadFavorites: PropTypes.func,
-  userInfo: UserInfoPropTypes
-};
-
-const mapStateToProps = (state) => {
-  return {
-    offers: state.favorites,
-    userInfo: state.authInfo
-  };
-};
-
-const mapDispatchToProps = (dispatch) => ({
-  onLoadFavorites() {
-    dispatch(fetchFavorites());
-  }
-});
-
-export {Favorites};
-export default connect(mapStateToProps, mapDispatchToProps)(Favorites);
+export default Favorites;
