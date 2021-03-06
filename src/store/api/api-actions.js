@@ -1,22 +1,25 @@
 import * as ActionCreator from "../action-creators";
-import {adaptToClient, adaptReviewsToClient, adaptAuthInfoToClient} from "../../../common";
-import {APIRoute, AppRoute} from "../../../const";
+import {adaptToClient, adaptReviewsToClient, adaptAuthInfoToClient} from "../../common";
+import {APIRoute, AppRoute, ERROR_TIMEOUT} from "../../const";
 
 export const fetchOffersList = () => (dispatch, _getState, api) => (
   api.get(`${APIRoute.OFFERS}`)
    .then(({data}) => dispatch(ActionCreator.setOffers(data.map(adaptToClient))))
-   .catch(() => {})
+   .catch(() => {
+     dispatch(ActionCreator.setIsError(true));
+     setTimeout(dispatch(ActionCreator.setIsError(false)), ERROR_TIMEOUT);
+   })
 );
 
 export const checkAuth = () => (dispatch, _getState, api) => (
   api.get(`${APIRoute.LOGIN}`)
-    .then((data) => dispatch(ActionCreator.setAuthorization(adaptAuthInfoToClient(data))))
+    .then(({data}) => dispatch(ActionCreator.setAuthorization(adaptAuthInfoToClient(data))))
     .catch(() => {})
 );
 
 export const login = ({login: email, password}) => (dispatch, _getState, api) => (
   api.post(`${APIRoute.LOGIN}`, {email, password})
-    .then((data) => {
+    .then(({data}) => {
       dispatch(ActionCreator.setAuthorization(adaptAuthInfoToClient(data)));
       dispatch(ActionCreator.redirectToRoute(`${AppRoute.MAIN}`));
     })
@@ -34,10 +37,14 @@ export const logout = () => (dispatch, _getState, api) => (
     .catch(() => {})
 );
 
-export const fetchFavorites = () => (dispatch, _getState, api) => (
+export const fetchFavorites = () => (dispatch, _getState, api) => {
   api.get(`${APIRoute.FAVORITE}`)
-   .then(({data}) => dispatch(ActionCreator.setFavorite(data.map(adaptToClient))))
-);
+   .then(({data}) => (dispatch(ActionCreator.setFavorite(data.map(adaptToClient)))))
+   .catch(() => {
+     dispatch(ActionCreator.setIsError(true));
+     setTimeout(dispatch(ActionCreator.setIsError(false)), ERROR_TIMEOUT);
+   });
+};
 
 export const fetchPropertyData = (id) => (dispatch, _getState, api) => {
   Promise.all([
@@ -50,7 +57,10 @@ export const fetchPropertyData = (id) => (dispatch, _getState, api) => {
       dispatch(ActionCreator.setNearbyOffers(nearby.data.map(adaptToClient)));
       dispatch(ActionCreator.setReviews(reviews.data.map(adaptReviewsToClient)));
     })
-    .catch(() => dispatch(ActionCreator.redirectToRoute(`${AppRoute.NOT_FOUND}`)))
+    .catch(() => {
+      dispatch(ActionCreator.setIsError(true));
+      setTimeout(dispatch(ActionCreator.setIsError(false)), ERROR_TIMEOUT);
+    })
     .finally(() => dispatch(ActionCreator.setIsLoaded(true)));
 };
 
@@ -58,14 +68,20 @@ export const updateComments = (comment, id) => (dispatch, _getState, api) => {
   dispatch(ActionCreator.setDisabled(true));
   api.post(`${APIRoute.COMMENTS}/${id}`, comment)
     .then(({data}) => dispatch(ActionCreator.setReviews(data.map(adaptReviewsToClient))))
-    .catch(() => dispatch(ActionCreator.setIsError(true)))
+    .catch(() => {
+      dispatch(ActionCreator.setIsError(true));
+      setTimeout(dispatch(ActionCreator.setIsError(false)), ERROR_TIMEOUT);
+    })
     .finally(() => dispatch(ActionCreator.setDisabled(false)));
 };
 
 export const updateOffers = (id, status) => (dispatch, _getState, api) => (
   api.post(`${APIRoute.FAVORITE}/${id}/${Number(status)}`)
    .then(({data}) => dispatch(ActionCreator.updateOffers((adaptToClient(data)))))
-   .catch(() => {})
+   .catch(() => {
+     dispatch(ActionCreator.setIsError(true));
+     setTimeout(dispatch(ActionCreator.setIsError(false)), ERROR_TIMEOUT);
+   })
 );
 
 export const updateFavorites = (id, status) => (dispatch, _getState, api) => (
@@ -74,7 +90,10 @@ export const updateFavorites = (id, status) => (dispatch, _getState, api) => (
      dispatch(ActionCreator.updateFavorites(adaptToClient(data)));
      dispatch(ActionCreator.updateOffers(adaptToClient(data)));
    })
-   .catch(() => {})
+   .catch(() => {
+     dispatch(ActionCreator.setIsError(true));
+     setTimeout(dispatch(ActionCreator.setIsError(false)), ERROR_TIMEOUT);
+   })
 );
 
 export const updateOffer = (id, status) => (dispatch, _getState, api) => (
@@ -83,7 +102,10 @@ export const updateOffer = (id, status) => (dispatch, _getState, api) => (
      dispatch(ActionCreator.updateOffer(adaptToClient(data)));
      dispatch(ActionCreator.updateOffers(adaptToClient(data)));
    })
-   .catch(() => {})
+   .catch(() => {
+     dispatch(ActionCreator.setIsError(true));
+     setTimeout(dispatch(ActionCreator.setIsError(false)), ERROR_TIMEOUT);
+   })
 );
 
 export const updateNearbyOffers = (id, status) => (dispatch, _getState, api) => (
@@ -92,5 +114,8 @@ export const updateNearbyOffers = (id, status) => (dispatch, _getState, api) => 
      dispatch(ActionCreator.updateNearbyOffers(adaptToClient(data)));
      dispatch(ActionCreator.updateOffers(adaptToClient(data)));
    })
-   .catch(() => {})
+   .catch(() => {
+     dispatch(ActionCreator.setIsError(true));
+     setTimeout(dispatch(ActionCreator.setIsError(false)), ERROR_TIMEOUT);
+   })
 );

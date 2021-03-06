@@ -1,8 +1,8 @@
 import React from "react";
 import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {setIsLoaded} from "../store/action-creators";
-import {logout} from "../store/api/api-actions";
+import {setIsLoaded} from "../../store/action-creators";
+import {logout} from "../../store/api/api-actions";
 import {AppRoute} from "../../const";
 
 import "./header.css";
@@ -26,10 +26,10 @@ const Header = () => {
                 <Link to={authInfo && `${AppRoute.FAVORITES}` || `${AppRoute.LOGIN}`} className="header__nav-link header__nav-link--profile">
                   {
                     authInfo &&
-                      <div className="header__avatar-wrapper user__avatar-wrapper">
+                      <div className="header__avatar-wrapper user__avatar-wrapper" style={{backgroundImage: authInfo.avatarUrl}}>
                       </div>
                   }
-                  <span className="header__user-name user__name">{authInfo && authInfo.data.email || `Sign In`}</span>
+                  <span className="header__user-name user__name">{authInfo && authInfo.email || `Sign In`}</span>
                 </Link>
               </li>
               {authInfo &&

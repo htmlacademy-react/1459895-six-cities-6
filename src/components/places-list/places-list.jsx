@@ -11,21 +11,17 @@ const PlacesList = (props) => {
 
   return (
     <div className={`${listSettings.divClass} places__list ${type === `CITIES` ? `tabs__content` : ``}`}>
-
       {
-        offers.length > 0 ?
-          offers.map((item) =>
-            <Card
-              cardType={type}
-              offer={item}
-              key={item.id}
-              onChangeActiveCard={onChangeActiveCard}
-              onScrollToTop={onScrollToTop}
-              onFavoriteClick={onFavoriteClick}
-            />)
-          : <p>No places to stay available</p>
+        offers.map((item) =>
+          <Card
+            cardType={type}
+            offer={item}
+            key={item.id}
+            onChangeActiveCard={onChangeActiveCard}
+            onScrollToTop={onScrollToTop}
+            onFavoriteClick={onFavoriteClick}
+          />)
       }
-
     </div>
   );
 };

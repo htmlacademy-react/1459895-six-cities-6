@@ -1,6 +1,6 @@
 import React, {useRef} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {login} from "../../store/api/api-actions";
+import {login} from "../../../store/api/api-actions";
 import {Redirect} from "react-router-dom";
 import {AppRoute} from "../../../const.js";
 

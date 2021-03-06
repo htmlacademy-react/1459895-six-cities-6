@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {useSelector, useDispatch} from "react-redux";
-import {setOption} from "../store/action-creators";
+import {setOption} from "../../store/action-creators";
 import PlacesOptionsList from "../places-options-list/places-options-list";
 import {PLACES_OPTIONS} from "../../const";
 

@@ -1,11 +1,9 @@
 import React, {useState, useEffect} from "react";
 import {useSelector, useDispatch} from "react-redux";
 import {useParams} from "react-router-dom";
-import {updateComments} from "../store/api/api-actions";
+import {updateComments} from "../../store/api/api-actions";
 import {CommentLength} from "../../const";
 import {stars} from "../../const";
-import Error from "../error/error";
-import {setIsError} from "../store/action-creators";
 
 const PropertyForm = () => {
   const {id} = useParams();
@@ -14,7 +12,7 @@ const PropertyForm = () => {
     rating: ``
   });
   const dispatch = useDispatch();
-  const {isDisabled, isError} = useSelector((state) => state.PROPERTY);
+  const {isDisabled, isError} = useSelector((state) => state.MAIN);
 
   useEffect(() => {
     if (!isDisabled && !isError) {
@@ -24,12 +22,6 @@ const PropertyForm = () => {
       }));
     }
   }, [isDisabled, isError]);
-
-  useEffect(() => {
-    if (isError) {
-      setTimeout(() => dispatch(setIsError(false)), 3000);
-    }
-  }, [isError]);
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
@@ -54,9 +46,6 @@ const PropertyForm = () => {
       action="#"
       method="post"
     >
-      {
-        isError && <Error/>
-      }
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
         {

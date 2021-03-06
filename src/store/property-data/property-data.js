@@ -1,13 +1,12 @@
 import {createReducer} from '@reduxjs/toolkit';
-import {setNearbyOffers, setReviews, setOffer, setIsLoaded, setIsError, setDisabled, updateOffer, updateNearbyOffers} from "../action-creators";
+import {setNearbyOffers, setReviews, setOffer, setIsLoaded, setDisabled, updateOffer, updateNearbyOffers} from "../action-creators";
 
 const initialState = {
   offer: {},
   isLoaded: false,
   nearbyOffers: [],
   reviews: [],
-  isDisabled: false,
-  isError: false
+  isDisabled: false
 };
 
 const propertyData = createReducer(initialState, (builder) => {
@@ -23,9 +22,6 @@ const propertyData = createReducer(initialState, (builder) => {
     })
     .addCase(setDisabled, (state, action) => {
       state.isDisabled = action.payload;
-    })
-    .addCase(setIsError, (state, action) => {
-      state.isError = action.payload;
     })
     .addCase(setIsLoaded, (state, action) => {
       state.isLoaded = action.payload;

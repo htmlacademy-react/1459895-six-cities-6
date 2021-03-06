@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import PlacesList from "../places-list/places-list";
 import {OfferPropTypes} from "../../props";
 import {useDispatch} from "react-redux";
-import {updateFavorites} from "../store/api/api-actions";
+import {updateFavorites} from "../../store/api/api-actions";
 
 const FavoriteItems = (props) => {
   const dispatch = useDispatch();
