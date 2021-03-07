@@ -3,9 +3,16 @@ import PropTypes from "prop-types";
 import {Route, Redirect} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {AppRoute} from "../../const";
+import Spinner from "../spinner/spinner";
 
 const PrivateRoute = ({render, path, exact}) => {
-  const {authInfo} = useSelector((state) => state.USER);
+  const {authInfo, loading} = useSelector((state) => state.USER);
+
+  if (loading) {
+    return (
+      <Spinner/>
+    );
+  }
 
   return (
     <Route
@@ -13,9 +20,9 @@ const PrivateRoute = ({render, path, exact}) => {
       exact={exact}
       render={(routeProps) => {
         return (
-          authInfo &&
+          authInfo ?
             render(routeProps)
-            || <Redirect to={`${AppRoute.LOGIN}`} />
+            : <Redirect to={`${AppRoute.LOGIN}`} />
         );
       }}
     />

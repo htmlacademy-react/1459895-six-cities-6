@@ -36,7 +36,7 @@ const Card = (props) => {
           <button
             className={`place-card__bookmark-button button ${isFavorite && `place-card__bookmark-button--active`}`}
             type="button"
-            onClick={() => authInfo && onFavoriteClick(id, !isFavorite) || history.push(`${AppRoute.LOGIN}`)}
+            onClick={() => authInfo ? onFavoriteClick(id, !isFavorite) : history.push(`${AppRoute.LOGIN}`)}
           >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlink="true" href="#icon-bookmark"></use>

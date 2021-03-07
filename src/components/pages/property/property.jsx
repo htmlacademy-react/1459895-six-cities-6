@@ -11,9 +11,10 @@ import PropertyFeatures from "../../property-features/property-features";
 import Map from "../../map/map";
 import PlacesList from "../../places-list/places-list";
 import {getRating} from "../../../common";
-import {fetchPropertyData, updateOffer, updateNearbyOffers} from "../../store/api/api-actions";
-import {getActiveReviews} from "../../store/property-data/selectors";
+import {fetchPropertyData, updateOffer, updateNearbyOffers} from "../../../store/api/api-actions";
+import {getActiveReviews} from "../../../store/property-data/selectors";
 import {AppRoute} from "../../../const";
+import withError from "../../../hocs/with-error/with-error";
 
 const Property = () => {
   const {id} = useParams();
@@ -96,7 +97,12 @@ const Property = () => {
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <PlacesList type="NEARBY" offers={nearbyOffers} onScrollToTop={handleScrollTop} onFavoriteClick={handleFavorite}/>
+            <PlacesList
+              type="NEARBY"
+              offers={nearbyOffers}
+              onScrollToTop={handleScrollTop}
+              onFavoriteClick={handleFavorite}
+            />
           </section>
         </div>
       </main>
@@ -104,4 +110,5 @@ const Property = () => {
   );
 };
 
-export default Property;
+export {Property};
+export default withError(Property);

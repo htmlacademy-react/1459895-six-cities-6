@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {setCity} from "../store/action-creators";
+import {setCity} from "../../store/action-creators";
 import {useDispatch, useSelector} from "react-redux";
 
 const LocationItems = ({city}) => {

@@ -78,6 +78,8 @@ const CommentLength = {
 
 const stars = [5, 4, 3, 2, 1];
 
+const ERROR_TIMEOUT = 3000;
+
 export {
   WIDTH_PER_STAR,
   MapStyle,
@@ -88,5 +90,6 @@ export {
   AppRoute,
   APIRoute,
   CommentLength,
-  stars
+  stars,
+  ERROR_TIMEOUT
 };
