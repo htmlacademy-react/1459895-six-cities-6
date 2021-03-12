@@ -9,6 +9,8 @@ import {checkAuth} from "./store/api/api-actions";
 import {redirect} from "./store/middlewares/redirect";
 import * as ActionCreator from "./store/action-creators";
 import {configureStore} from '@reduxjs/toolkit';
+import {Router as BrowserRouter} from "react-router-dom";
+import browserHistory from "./browser-history";
 
 const api = createAPI(() => store.dispatch(ActionCreator.setAuthorization(null)));
 
@@ -28,7 +30,9 @@ store.dispatch(fetchOffersList());
 
 ReactDOM.render(
     <Provider store={store}>
-      <App/>
+      <BrowserRouter history={browserHistory}>
+        <App/>
+      </BrowserRouter>
     </Provider>,
     document.querySelector(`#root`)
 );

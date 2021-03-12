@@ -1,7 +1,7 @@
 import {createReducer} from '@reduxjs/toolkit';
-import {setCity, setOption, setOffers, updateOffers, setIsError} from "../action-creators";
+import {setCity, setOption, setOffers, updateOffers, setIsError, setIsDataLoaded} from "../action-creators";
 
-const initialState = {
+export const initialState = {
   activeLocation: `Paris`,
   offers: [],
   option: `Popular`,
@@ -16,6 +16,9 @@ const mainData = createReducer(initialState, (builder) => {
     })
     .addCase(setIsError, (state, action) => {
       state.isError = action.payload;
+    })
+    .addCase(setIsDataLoaded, (state, action) => {
+      state.isDataLoaded = action.payload;
     })
     .addCase(setOffers, (state, action) => {
       state.offers = action.payload;

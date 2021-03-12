@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test Spinner component Spinner component should render correctly 1`] = `
+<div>
+  <div
+    class="loadingio-spinner-spin-oi6iug4w1o"
+    role="spinner"
+  >
+    <div
+      class="ldio-ta3uggjsjq"
+    >
+      <div>
+        <div />
+      </div>
+      <div>
+        <div />
+      </div>
+      <div>
+        <div />
+      </div>
+      <div>
+        <div />
+      </div>
+      <div>
+        <div />
+      </div>
+      <div>
+        <div />
+      </div>
+      <div>
+        <div />
+      </div>
+      <div>
+        <div />
+      </div>
+    </div>
+  </div>
+</div>
+`;

@@ -1,7 +1,7 @@
 import {createReducer} from '@reduxjs/toolkit';
 import {setAuthorization} from "../action-creators";
 
-const initialState = {
+export const initialState = {
   authInfo: null,
   loading: true
 };

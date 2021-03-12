@@ -25,7 +25,7 @@ const Login = () => {
 
   return (
     <section className="login">
-      <h1 className="login__title">Sign in</h1>
+      <h1 className="login__title" data-testid="Sign in">Sign in</h1>
       <form
         className="login__form form"
         onSubmit={handleSubmit}
@@ -41,6 +41,7 @@ const Login = () => {
             name="email"
             placeholder="Email"
             required=""
+            data-testid="email"
           />
         </div>
         <div className="login__input-wrapper form__input-wrapper">
@@ -52,6 +53,7 @@ const Login = () => {
             name="password"
             placeholder="Password"
             required=""
+            data-testid="password"
           />
         </div>
         <button

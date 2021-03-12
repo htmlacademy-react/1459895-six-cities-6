@@ -1,7 +1,7 @@
 import {createReducer} from '@reduxjs/toolkit';
 import {setFavorite, updateFavorites} from "../action-creators";
 
-const initialState = {
+export const initialState = {
   favorites: []
 };
 
