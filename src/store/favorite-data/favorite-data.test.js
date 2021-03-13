@@ -4,7 +4,7 @@ import * as ActionCreator from "../action-creators";
 import MockAdapter from "axios-mock-adapter";
 import {fetchFavorites, updateFavorites} from "../api/api-actions";
 import {APIRoute} from "../../const";
-import {offers} from "../tests-mocks";
+import {offers, favoritesCards} from "../../mocks/tests-mocks";
 import {createAPI} from "../api/api";
 
 export const api = createAPI(() => {});
@@ -21,6 +21,16 @@ describe(`Reducer 'favoriteData' should work correctly`, () => {
       .toEqual({
         favorites: offers.adapted
       });
+  });
+  it(`Reducer should change favorites with updateFavorites action creator`, () => {
+    const state = {
+      favorites: favoritesCards.start
+    };
+    const expectedState = {
+      favorites: favoritesCards.end
+    };
+    expect(favoriteData(state, ActionCreator.updateFavorites(favoritesCards.remove)))
+      .toEqual(expectedState);
   });
 });
 

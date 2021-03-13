@@ -1,7 +1,7 @@
 import React from 'react';
 import {render} from '@testing-library/react';
 import FavoriteList from './favorite-list';
-import {offers} from "../../store/tests-mocks";
+import {offers} from "../../mocks/tests-mocks";
 import * as redux from "react-redux";
 import configureStore from "redux-mock-store";
 import {Router} from 'react-router-dom';

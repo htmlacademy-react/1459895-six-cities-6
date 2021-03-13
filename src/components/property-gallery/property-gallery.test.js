@@ -1,7 +1,7 @@
 import React from 'react';
 import {render} from '@testing-library/react';
 import PropertyGallery from './property-gallery';
-import {offers} from "../../store/tests-mocks";
+import {offers} from "../../mocks/tests-mocks";
 
 describe(`Test PropertyGallery component`, () => {
   it(`PropertyGallery component should render correctly`, () => {

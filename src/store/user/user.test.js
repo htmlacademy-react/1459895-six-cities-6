@@ -5,7 +5,7 @@ import * as ActionType from "../actions";
 import {checkAuth, login} from "../api/api-actions";
 import {APIRoute, AppRoute} from "../../const";
 import * as ActionCreator from "../action-creators";
-import {authInfo} from "../tests-mocks";
+import {authInfo} from "../../mocks/tests-mocks";
 
 const api = createAPI(() => {});
 describe(`Reducer work correctly`, () => {

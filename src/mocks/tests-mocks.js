@@ -1,5 +1,71 @@
 export const TEST_DATA = `test`;
 
+export const cards = {
+  start: [
+    {
+      id: 1,
+      isFavorite: false
+    },
+    {
+      id: 2,
+      isFavorite: false
+    },
+    {
+      id: 3,
+      isFavorite: true
+    }
+  ],
+  end: [
+    {
+      id: 1,
+      isFavorite: false
+    },
+    {
+      id: 2,
+      isFavorite: true
+    },
+    {
+      id: 3,
+      isFavorite: true
+    }
+  ],
+  change: {
+    id: 2,
+    isFavorite: true
+  }
+};
+
+export const favoritesCards = {
+  start: [
+    {
+      id: 1,
+      isFavorite: true
+    },
+    {
+      id: 2,
+      isFavorite: true
+    },
+    {
+      id: 3,
+      isFavorite: true
+    }
+  ],
+  end: [
+    {
+      id: 2,
+      isFavorite: true
+    },
+    {
+      id: 3,
+      isFavorite: true
+    }
+  ],
+  remove: {
+    id: 1,
+    isFavorite: true
+  }
+};
+
 export const offers = {
   adapted: [
     {

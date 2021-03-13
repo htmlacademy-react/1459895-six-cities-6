@@ -4,7 +4,7 @@ import * as ActionType from "../actions";
 import MockAdapter from "axios-mock-adapter";
 import {fetchPropertyData, updateOffer, updateNearbyOffers, updateComments} from "../api/api-actions";
 import {APIRoute} from "../../const";
-import {reviews, offers, offer} from "../tests-mocks";
+import {reviews, offers, offer, cards} from "../../mocks/tests-mocks";
 import {createAPI} from "../api/api";
 
 export const api = createAPI(() => {});
@@ -48,6 +48,26 @@ describe(`Reducer work correctly`, () => {
         ...initialState,
         offer: offer.adapted
       });
+  });
+  it(`Reducer should update offer with updateOffer action creator`, () => {
+    const state = {
+      offer: cards.start[1]
+    };
+    const expectedState = {
+      offer: cards.end[1]
+    };
+    expect(propertyData(state, ActionCreator.updateOffer(cards.change)))
+      .toEqual(expectedState);
+  });
+  it(`Reducer should update nearbyOffers with updateNearbyOffers action creator`, () => {
+    const state = {
+      nearbyOffers: cards.start
+    };
+    const expectedState = {
+      nearbyOffers: cards.end
+    };
+    expect(propertyData(state, ActionCreator.updateNearbyOffers(cards.change)))
+      .toEqual(expectedState);
   });
 });
 
