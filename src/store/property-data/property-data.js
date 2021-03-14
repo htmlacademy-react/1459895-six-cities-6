@@ -1,7 +1,7 @@
 import {createReducer} from '@reduxjs/toolkit';
 import {setNearbyOffers, setReviews, setOffer, setIsLoaded, setDisabled, updateOffer, updateNearbyOffers} from "../action-creators";
 
-const initialState = {
+export const initialState = {
   offer: {},
   isLoaded: false,
   nearbyOffers: [],

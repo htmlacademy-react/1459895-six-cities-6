@@ -12,7 +12,8 @@ const PropertyForm = () => {
     rating: ``
   });
   const dispatch = useDispatch();
-  const {isDisabled, isError} = useSelector((state) => state.MAIN);
+  const {isDisabled} = useSelector((state) => state.PROPERTY);
+  const {isError} = useSelector((state) => state.MAIN);
 
   useEffect(() => {
     if (!isDisabled && !isError) {
@@ -60,7 +61,7 @@ const PropertyForm = () => {
                   id={`${star}-stars`}
                   type="radio"
                   disabled={isDisabled}
-                  checked={star === data.rating}
+                  checked={String(star) === data.rating}
                 />
                 <label
                   htmlFor={`${star}-stars`}
